@@ -20,6 +20,13 @@
 
 이 포트폴리오의 기술 선택은 "화려한 도구 나열"보다, 실제 서비스에서 중요한 세 가지를 전달하기 위해 구성했습니다.
 
+### React + Vite를 선택한 이유 (vs HTML/CSS only)
+
+- **초기 제작 속도만** 보면 HTML/CSS가 더 빠를 수 있습니다.
+- 하지만 이 포트폴리오는 언어 토글, 프로젝트 필터/모달, 스크롤 인터랙션처럼 **상태와 상호작용**이 많아 React가 유지보수에 유리합니다.
+- 프로젝트/성과 콘텐츠를 데이터로 관리해 **반복 UI 수정 비용**을 낮추고, 컴포넌트 재사용성을 확보했습니다.
+- Vite를 통해 빠른 dev server/HMR로 수정-검증 루프를 짧게 유지해 **지속 개선**에 최적화했습니다.
+
 ### 1) 왜 이 스택을 선택했는가 (Why This Stack)
 
 - **React + TypeScript**  
@@ -56,6 +63,69 @@
 
 - **홍보용**  
   경력 소개를 스택-성과-문제해결 흐름으로 연결해, "무엇을 했는지"보다 "왜 잘하는지"가 보이도록 구성했습니다.
+
+## 📐 아키텍처 개념 요약 & 폴더 구조 (학습용)
+
+아래는 프론트/백엔드에서 자주 등장하는 **구조 설계 관점**을 한 줄씩만 정리한 것입니다. (공식 표준 폴더가 정해진 것은 아니며, 팀마다 변형합니다.)
+
+### 개념별 한 줄 정리
+
+| 개념 | 한 줄 |
+|------|--------|
+| **DDD** | 업무(도메인) 언어·규칙·경계(바운디드 컨텍스트)를 중심에 두고 모델링한다. 폴더는 팀이 정하며 DDD가 강제하지 않는다. |
+| **Strategic DDD** | 시스템을 큰 맥락(컨텍스트)으로 나누는 설계. 폴더 최상위가 `order/`, `payment/`처럼 컨텍스트 단위가 되기 쉽다. |
+| **Tactical DDD** | 엔티티·값 객체·애그리거트·리포지토리 등 구현 패턴. 보통 `domain/` 아래에 도메인별 폴더로 둔다. |
+| **Clean / Hexagonal** | 비즈니스 코어를 안쪽에 두고 DB·HTTP는 바깥(어댑터). `domain` + `application` + `adapters` 형태가 흔하다. |
+| **Layered** | presentation / application / domain / infrastructure 등 **역할(계층)**으로 나눈다. |
+| **FSD** | 프론트 전용 슬라이스: `app` → `pages` → `widgets` → `features` → `entities` → `shared` + import 규칙. 대형 SPA·팀 규칙에 강하다. |
+| **Atomic Design** | UI를 atom → molecule → organism → template → page 크기로 층 나눈다. 디자인 시스템·UI 키트에 잘 맞는다. |
+| **Feature 폴더** | `features/cart`, `features/profile`처럼 **기능 단위**로만 나눈다. FSD보다 루스하고 도입 비용이 낮다. |
+| **Route-based** | URL·라우트와 폴더가 1:1 (예: Next `app/dashboard/`). |
+| **Colocation** | 컴포넌트 옆에 테스트·스타일을 두어 수정 단위를 한 폴더에 모은다. |
+
+**FSD vs Atomic:** FSD는 **기능·도메인·의존 방향**이 축이고, Atomic은 **UI 조각 크기**가 충이다. 서로 배타가 아니라 `shared/ui` 안을 Atomic 규칙으로 쓰는 식으로 **병행**하기도 한다.
+
+### 이 저장소를 분리할 때 권장하는 폴더 구조 (목표안)
+
+현재는 단일 `App.tsx`에 집중되어 있다. **최소 분리** 시 아래처럼 두는 것을 권장한다. (FSD 전체를 도입하지 않고, **경량 Feature Slice + 공용 UI**에 가깝다.)
+
+```txt
+src/
+  App.tsx                 # 라우팅·전역 상태·섹션 조립만 (오케스트레이터)
+  components/
+    ui/                   # 여러 섹션에서 재사용하는 작은 조각
+      StatItem.tsx
+      TechCategory.tsx
+      ProjectCard.tsx
+      ...
+  features/
+    hero/
+      HeroSection.tsx
+    projects/
+      ProjectsSection.tsx
+      projects.data.ts    # 프로젝트 카드 데이터·타입
+    career/
+      CareerSection.tsx
+  shared/                 # (선택) 상수, copy 타입, 공용 유틸
+    i18n/
+```
+
+### 왜 이 분할 방식을 선택하는가
+
+- **FSD 전체를 쓰지 않는 이유**  
+  페이지가 하나이고 팀 규모가 작다. `widgets` / `entities` 레이어까지 두면 **규칙 학습·보일러플레이트**가 이득보다 커질 수 있다.
+
+- **Atomic만으로 끝내지 않는 이유**  
+  Atomic은 UI 크기 분류에는 좋지만, **히어로·프로젝트·경력** 같은 **기능·콘텐츠 경계**는 `features/*`로 나누는 편이 수정 시 찾기 쉽다.
+
+- **`components/ui`를 따로 두는 이유**  
+  카드·스탯·태그 칩 등은 여러 섹션에서 재사용된다. **표현 전용(presentational)** 으로 빼면 `App`과 섹션 파일이 짧아지고 리뷰 포인트가 명확해진다.
+
+- **`App`을 오케스트레이터로 남기는 이유**  
+  언어 전환, 프로젝트 필터, 모달, 스크롤 ref 등 **페이지 단위 상태**가 한곳에 모여 있다. 무리하게 전역 스토어를 도입하지 않아도 된다.
+
+- **점진적 이동이 가능**  
+  한 번에 전부 옮기지 않고, `StatItem` → `projects` 데이터 → `ProjectsSection` 순으로 옮겨도 동작을 유지하기 쉽다.
 
 ## ✨ 주요 기능 (Key Features)
 
