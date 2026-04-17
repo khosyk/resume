@@ -20,7 +20,6 @@ import {
 	BrainCircuit,
 	Users,
 	Award,
-	FileText,
 	ArrowUp,
 	Languages,
 } from "lucide-react";
@@ -345,7 +344,7 @@ export default function App() {
 							"UX: Reanimated header & API debouncing; 40fps → 60fps; removed header glitch",
 							"Charts: Custom ScrollView-based charts to reduce eCharts scroll lag",
 							"Android 15: 16KB page-size analysis and library compatibility for continuity",
-							"Structure: Contributions to Atomic Design & modularization; ~20% less code, less tech debt",
+							"Structure: Contributions to Atomic Design & modularization; 20% less code, less tech debt",
 						],
 			icon: <Smartphone className="text-brand-accent" />,
 			color: "bg-blue-50",
@@ -601,20 +600,30 @@ export default function App() {
 										<Phone size={18} className="text-brand-accent" />
 										<span>010-8362-3454</span>
 									</div>
-									<div className="flex gap-4 items-center">
+									<div className="flex flex-wrap gap-3 items-center">
 										<a
-											href="/resume.pdf"
-											download
-											className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider hover:text-brand-accent transition-colors">
-											<FileText size={16} />
-											<span>{t.hero.resume}</span>
+											href="https://heeunlee.notion.site/325e4eb522558063b927e485e4511c28?pvs=74"
+											target="_blank"
+											rel="noopener noreferrer"
+											className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent">
+											<span
+												className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-[15px] font-black leading-none text-brand-secondary"
+												aria-hidden>
+												N
+											</span>
+											<span className="leading-none">{t.hero.resume}</span>
 										</a>
 										<a
-											href="/cover-letter.pdf"
-											download
-											className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider hover:text-brand-accent transition-colors">
-											<FileText size={16} />
-											<span>{t.hero.coverLetter}</span>
+											href="https://heeunlee.notion.site/321e4eb522558019a22ef41d4080ed30?pvs=74"
+											target="_blank"
+											rel="noopener noreferrer"
+											className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent">
+											<span
+												className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-[15px] font-black leading-none text-brand-secondary"
+												aria-hidden>
+												N
+											</span>
+											<span className="leading-none">{t.hero.coverLetter}</span>
 										</a>
 									</div>
 									<div className="flex gap-4">
@@ -704,7 +713,7 @@ export default function App() {
 							<motion.div variants={fadeIn}>
 								<StatItem
 									label={t.stats.productivity}
-									value="~20%"
+									value="+20%"
 									subValue={lang === "ko" ? "코드량 절감" : "Code reduction"}
 									desc={t.stats.productivityDesc}
 									color="text-white"
@@ -1065,9 +1074,9 @@ export default function App() {
 							<Linkedin size={20} />
 						</a>
 						<a
-							href="https://notion.so/your-profile"
+							href="https://heeunlee.notion.site/325e4eb522558063b927e485e4511c28?pvs=74"
 							target="_blank"
-							rel="noreferrer"
+							rel="noopener noreferrer"
 							className="w-9 h-9 border border-brand-border rounded-full text-brand-secondary hover:bg-brand-surface hover:text-brand-primary transition-colors flex items-center justify-center font-black text-sm"
 							title="Notion">
 							N
