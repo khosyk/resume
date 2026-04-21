@@ -1,13 +1,6 @@
-import {
-	BarChart3,
-	Globe,
-	Smartphone,
-	Terminal,
-	Zap,
-} from "lucide-react";
 import type { ResumeProject } from "./types";
 
-/** 포트폴리오에 노출할 프로젝트 카드 데이터 (언어별 카피·아이콘 포함) */
+/** 포트폴리오에 노출할 프로젝트 카드 데이터 (언어별 카피) */
 export function buildPortfolioProjects(lang: "ko" | "en"): ResumeProject[] {
 	return [
 		{
@@ -19,9 +12,19 @@ export function buildPortfolioProjects(lang: "ko" | "en"): ResumeProject[] {
 			category: "App",
 			subtitle:
 				lang === "ko"
-					? "임신·출산·육아 통합 관리 서비스 (누적 가입자 55만)"
-					: "Pregnancy & Parenting Management Service (550K Users)",
-			tags: ["React Native", "Reanimated 3", "eCharts", "Android 15 SDK"],
+					? "임신·출산·육아 통합 관리 앱 (누적 가입자 55만)"
+					: "Pregnancy & parenting app (~550K cumulative users)",
+			// 이력서(Notion) 기술 스택 요약과 동일 계열
+			tags: [
+				"React Native",
+				"MobX",
+				"REST API",
+				"Firebase",
+				"WebView",
+				"Reanimated",
+				"eCharts",
+				"Android 15",
+			],
 			link: "https://apps.apple.com/kr/app/%EC%97%B4%EB%8B%AC%ED%9B%84%EC%97%90-%EC%9E%84%EC%8B%A0-%EC%B6%9C%EC%82%B0-%EC%9C%A1%EC%95%84-%ED%95%84%EC%88%98-%EC%95%B1/id1491862784",
 			images: [
 				"https://picsum.photos/seed/yeoldal1/800/1200",
@@ -32,40 +35,55 @@ export function buildPortfolioProjects(lang: "ko" | "en"): ResumeProject[] {
 					? [
 							{
 								problem:
-									"Android 15 업데이트 이후 16KB 페이지 사이즈 메모리 할당 이슈로 인한 앱 실행 불안정성 발생 가능성 감지.",
+									"비정상 종료율 3.89%·스크롤/차트 병목·클래스형 레거시로 유지보수·체감 성능 한계.",
 								thinking:
-									"네이티브 메모리 관리 정책 변화를 정밀 분석하고, 하위 호환성을 유지하면서 신규 OS의 메모리 정렬 기준에 맞춘 바이너리 최적화 수행.",
+									"Crashlytics 기반 원인 분석, 클래스형 전면 함수형(Hooks) 전환, Atomic Design에 맞춘 구조 정리 및 스니펫·공유 컴포넌트로 중복 제거.",
 								result:
-									"Android 15 환경에서의 앱 실행 안정성을 100% 확보하고 예기치 못한 비정상 종료를 사전에 차단.",
+									"비정상 종료율 0.02% 수준으로 안정화, 스크린 40fps→60fps·상용 품질에 가까운 체감 성능 확보.",
 							},
 							{
 								problem:
-									"복잡한 스크롤 인터랙션 시 헤더 레이아웃이 미세하게 떨리거나 깨지는 Glitch 현상 발생.",
+									"헤더 Glitch·API 중복 호출·eCharts 스크롤 지연 등 인터랙션·데이터 표현 이슈.",
 								thinking:
-									"JS 스레드 부하를 줄이기 위해 Reanimated의 Worklet을 활용, UI 스레드에서 직접 계산되는 고성능 헤더 엔진 설계.",
+									"Reanimated 기반 헤더 교체, 디바운스로 중복 요청·화면 이동 방어, ScrollView 기반 커스텀 차트로 스크롤 성능 확보.",
 								result:
-									"모든 디바이스에서 끊김 없는 60fps 스크롤 인터랙션을 구현하여 사용자 몰입감 극대화.",
+									"끊김 없는 스크롤·차트 사용성 개선, 복잡 화면에서도 일관된 UX.",
+							},
+							{
+								problem:
+									"Android 15 및 16KB 페이지 사이즈 등 최신 OS·인프라 이슈.",
+								thinking:
+									"OS 메모리 정책·네이티브 연동 지점을 점검하고 호환 빌드·라이브러리 정합성을 맞춤.",
+								result:
+									"최신 안드로이드 환경에서도 서비스 연속성·크래시 없는 실행 경로 유지.",
 							},
 						]
 					: [
 							{
 								problem:
-									"Detected potential app instability due to Android 15's 16KB page size memory allocation changes.",
+									"3.89% crash rate, scroll/chart bottlenecks, and class-based legacy limiting maintainability.",
 								thinking:
-									"Analyzed native memory management shifts and executed binary optimizations aligned with new OS alignment standards while maintaining backward compatibility.",
+									"Crashlytics-led triage, full migration to function components (Hooks), structure aligned with Atomic Design, shared snippets/components to cut duplication.",
 								result:
-									"Secured 100% execution stability on Android 15 and proactively prevented unexpected crashes.",
+									"Crash rate toward ~0.02%, screen performance from ~40fps to ~60fps and production-grade stability.",
 							},
 							{
 								problem:
-									"Experienced layout glitches and flickering in headers during complex scroll interactions.",
+									"Header glitch, duplicate API calls, and eCharts scroll lag hurting interactions.",
 								thinking:
-									"Designed a high-performance header engine calculated directly on the UI thread using Reanimated Worklets to offload the JS thread.",
+									"Reanimated-based header, debouncing for duplicate calls/navigation, custom ScrollView-based charts for smoother scrolling.",
 								result:
-									"Achieved seamless 60fps scroll interactions across all devices, maximizing user immersion.",
+									"Smoother scrolling and chart UX on complex screens.",
+							},
+							{
+								problem:
+									"Android 15 and 16KB page-size compatibility risks.",
+								thinking:
+									"Reviewed OS memory rules and native-linked paths; aligned builds and dependency compatibility.",
+								result:
+									"Stable execution on current Android targets without service disruption.",
 							},
 						],
-			icon: <Smartphone className="text-brand-accent" />,
 			color: "bg-blue-50/50",
 		},
 		{
@@ -74,10 +92,18 @@ export function buildPortfolioProjects(lang: "ko" | "en"): ResumeProject[] {
 			category: "App",
 			subtitle:
 				lang === "ko"
-					? "반려동물 IoT 생태계 통합 플랫폼 (Biskit IoT 하드웨어 연동)"
-					: "Pet IoT Ecosystem Platform (Biskit IoT Integration)",
-			tags: ["React Native", "WebSocket", "Bluetooth Low Energy", "TDD"],
-			link: "https://apps.apple.com/kr/app/%ED%8E%98%EC%8A%A4%EB%A3%B8-%EC%BC%80%EC%96%B4-pethroom-care/id1634567890",
+					? "강아지·고양이 IoT 화장실 관리 앱"
+					: "IoT litter box care app for dogs and cats",
+			tags: [
+				"React Native",
+				"Redux Toolkit",
+				"JWT",
+				"Axios",
+				"Firebase",
+				"Lottie",
+				"styled-components",
+			],
+			link: "https://play.google.com/store/apps/details?id=com.pethroom",
 			images: [
 				"https://picsum.photos/seed/pethroom1/800/1200",
 				"https://picsum.photos/seed/pethroom2/800/1200",
@@ -87,40 +113,55 @@ export function buildPortfolioProjects(lang: "ko" | "en"): ResumeProject[] {
 					? [
 							{
 								problem:
-									"초기 서비스 가동 시 비정상 종료율이 3.89%에 달해 사용자 UX와 브랜드 신뢰도 하락.",
+									"이메일·SNS(카카오, 구글, 애플) 로그인이 흩어져 있고, JWT 세션·토큰 만료·중복 로그인을 일관되게 다루기 어려움.",
 								thinking:
-									"Firebase Crashlytics 데이터 패턴을 분석하여 빈번한 스레드 경합 지점을 파악, Atomic Design 기반의 견고한 컴포넌트 아키텍처로 리팩토링 결정.",
+									"단일 진입점(Single Entry Point) 함수로 인증을 추상화하고, JWT 자동 로그인/로그아웃 프로세스를 설계하며, Axios Response Interceptor로 중복 로그인 방어·토큰 만료 예외를 전역에서 제어.",
 								result:
-									"비정상 종료율을 0.02%로 획기적으로 개선하며 상용 수준의 서비스 품질(SLO) 달성.",
+									"보안성 및 안정성 확보.",
 							},
 							{
 								problem:
-									"IoT 기기 상태 변경 시 클라이언트와 서버 간의 상태 동기화 지연으로 인한 사용자 피드백 저하.",
+									"렌더링·메모리 부담과 대량 데이터 FlatList 지연.",
 								thinking:
-									"실시간성 확보를 위해 WebSocket 프로토콜 기반의 전역 싱크 매니저를 도입하고, 네트워크 불안정 시 재연결 전략 최적화.",
+									"불필요한 전역 상태 참조를 줄이고 Props Drilling을 최소화하며 memo·useCallback을 배치하고 FlatList를 최적화.",
 								result:
-									"기기 제어 반응 속도를 200ms 이내로 단축하여 즉각적인 사용자 경험 제공.",
+									"메모리 사용량 약 15% 절감, 탭 이동·네비게이션 전환 속도 향상.",
+							},
+							{
+								problem:
+									"딥링크·푸시·스토어 런칭·OS별 규격 대응이 필요함.",
+								thinking:
+									"Firebase Dynamic Links로 앱 내 초대를 구현하고 Foreground/Background/Terminated별 푸시 이벤트를 다루며, AOS/iOS 스토어·애플 개발자 포털·플레이 콘솔·Lottie 스플래시·TestFlight 베타를 수행.",
+								result:
+									"App/Play Store 런칭 및 운영 전 과정 리드.",
 							},
 						]
 					: [
 							{
 								problem:
-									"Initial crash rate reached 3.89%, degrading user experience and brand trust.",
+									"Fragmented email/SNS (Kakao, Google, Apple) login and inconsistent JWT/session and duplicate-login handling.",
 								thinking:
-									"Analyzed Crashlytics data patterns to identify thread contention points and refactored into a robust architecture based on Atomic Design.",
+									"Single entry-point auth abstraction, JWT auto login/logout, Axios response interceptors for duplicate-login defense and token expiry globally.",
 								result:
-									"Improved crash rate to 0.02%, achieving commercial-grade Service Level Objectives (SLO).",
+									"Improved security and stability.",
 							},
 							{
 								problem:
-									"Latency in state synchronization between client and server during IoT device state changes.",
+									"Rendering/memory pressure and FlatList lag on large datasets.",
 								thinking:
-									"Introduced a global sync manager based on WebSocket and optimized reconnection strategies for network instability.",
+									"Reduced unnecessary global state, minimized prop drilling, applied memo/useCallback where needed, tuned FlatList.",
 								result:
-									"Reduced device control response time to under 200ms, providing near-instant user feedback.",
+									"~15% memory reduction and faster tab/navigation transitions.",
+							},
+							{
+								problem:
+									"Deeplinks, push, store launch, and per-OS policy work.",
+								thinking:
+									"Firebase Dynamic Links for invites; push handling by app state; AOS/iOS stores, Apple portal, Play Console, Lottie splash, TestFlight beta.",
+								result:
+									"Led App/Play Store launch and operations end-to-end.",
 							},
 						],
-			icon: <Zap className="text-brand-accent" />,
 			color: "bg-orange-50/50",
 		},
 		{
@@ -129,9 +170,18 @@ export function buildPortfolioProjects(lang: "ko" | "en"): ResumeProject[] {
 			category: "Web",
 			subtitle:
 				lang === "ko"
-					? "글로벌 IoT 서비스 통합 관제 및 운영 시스템"
-					: "Global IoT Service Integrated Control & Ops System",
-			tags: ["React", "MUI DataGrid", "RBAC", "Automated QA"],
+					? "반려동물 IoT 화장실 관리 앱 어드민"
+					: "Admin for the IoT litter-box care app",
+			tags: [
+				"React",
+				"Redux Toolkit",
+				"MUI",
+				"MUI DataGrid",
+				"Chart.js",
+				"AWS S3",
+				"Axios",
+				"RBAC",
+			],
 			images: [
 				"https://picsum.photos/seed/admin1/1200/800",
 				"https://picsum.photos/seed/admin2/1200/800",
@@ -142,38 +192,79 @@ export function buildPortfolioProjects(lang: "ko" | "en"): ResumeProject[] {
 					? [
 							{
 								problem:
-									"다국어 서비스 및 IoT 기기 급증으로 관리 권한 체계가 복잡해지며 보안 사고 위험과 운영 비효율 증대.",
+									"대시보드·대용량 테이블·지표 시각화·엑셀 입출력이 함께 필요함.",
 								thinking:
-									"확장성과 보안을 동시에 확보하기 위해 역할 기반 권한 제어(RBAC) 시스템을 도입하고, 반복되는 인증 로직을 API 인터셉터로 표준화.",
+									"MUI DataGrid를 커스터마이징해 다중 조건 검색·캘린더 연동 필터를 두고, Chart.js로 지표를 그래프화하며 Excel Bulk Upload/Download를 커스텀 구현.",
 								result:
-									"권한 관리 프로세스 자동화로 운영 리소스를 50% 절감하고 보안 규정 준수 강화.",
+									"데이터 관리 효율화.",
+							},
+							{
+								problem:
+									"메뉴·페이지 접근 제어와 API·세션 보안이 필요함.",
+								thinking:
+									"Role-based Access Control(RBAC)로 권한별 메뉴·페이지를 통제하고, Axios Interceptor로 인증 토큰·세션을 관리하며 AWS S3로 정적 호스팅·배포를 운영.",
+								result:
+									"보안·접근 제어 및 클라우드 배포 환경 운영.",
+							},
+							{
+								problem:
+									"레거시 코드에 미결 에러가 남아 QA 통과가 어려움.",
+								thinking:
+									"미결함 에러를 전수 조사해 수정하고, 인수인계를 고려한 컴포넌트 구조 재설계를 지향.",
+								result:
+									"QA 테스트 성공률을 서비스 배포 가능 수준으로 회복.",
 							},
 						]
 					: [
 							{
 								problem:
-									"Growing complexity in global services and IoT devices led to increased security risks and operational inefficiency.",
+									"Dashboards, large tables, charting, and Excel bulk I/O together.",
 								thinking:
-									"Implemented a Role-Based Access Control (RBAC) system for scalability and security, standardizing authentication logic through API interceptors.",
+									"Custom MUI DataGrid with multi-criteria search and calendar filters; Chart.js for KPI charts; custom Excel bulk upload/download.",
 								result:
-									"Reduced operational overhead by 50% via automated permission management and enhanced security compliance.",
+									"More efficient data management.",
+							},
+							{
+								problem:
+									"Menu/page access control and API/session security.",
+								thinking:
+									"RBAC for role-based menus/pages; Axios interceptors for tokens/sessions; AWS S3 for static hosting and deploys.",
+								result:
+									"Security, access control, and cloud deploy operations.",
+							},
+							{
+								problem:
+									"Legacy defects blocking QA sign-off.",
+								thinking:
+									"Full pass on open defects; component rework with handover-friendly structure.",
+								result:
+									"QA success rate restored to a shippable level.",
 							},
 						],
-			icon: <BarChart3 className="text-brand-accent" />,
 			color: "bg-amber-50/50",
 		},
 		{
 			id: "findirect",
 			title:
 				lang === "ko"
-					? "핀다이렉트 중고폰 진단"
-					: "Findirect Device Check",
+					? "핀다이렉트 중고폰 검사"
+					: "Findirect device inspection",
 			category: "Native/PWA",
 			subtitle:
 				lang === "ko"
-					? "플랫폼 경계를 넘는 하드웨어 정밀 검사 프레임워크"
-					: "Cross-Platform Hardware Precision Framework",
-			tags: ["Swift", "Native Modules", "Blob manipulation", "PWA"],
+					? "iOS 네이티브 진단 + PWA 외관검사 (하이브리드)"
+					: "Native iOS diagnostics + PWA exterior inspection (hybrid)",
+			// 핀다이렉트(Swift) + PWA 외관검사(React) 이력 스택 반영
+			tags: [
+				"Swift",
+				"React",
+				"PWA",
+				"Blob API",
+				"MediaDevices",
+				"REST API",
+				"Lottie",
+				"Storyboard",
+			],
 			images: [
 				"https://picsum.photos/seed/findirect1/800/1200",
 				"https://picsum.photos/seed/findirect2/1200/800",
@@ -183,38 +274,60 @@ export function buildPortfolioProjects(lang: "ko" | "en"): ResumeProject[] {
 					? [
 							{
 								problem:
-									"중고폰 진단 시 PWA 환경의 브라우저 샌드박스 제약으로 인해 FaceID 및 정밀 센서 데이터 접근의 기술적 한계 직면.",
+									"중고폰 하드웨어·시세 검사를 앱 안에서 일관되게 수행해야 함.",
 								thinking:
-									"브라우저의 한계를 극복하기 위해 Swift로 네이티브 진단 모듈을 개발하고, JS 브릿지를 통해 데이터 손실 없는 하이브리드 구조 설계.",
+									"Swift로 카메라·센서·FaceID/TouchID 등 진단 모듈 구현, Storyboard·Auto Layout·Delegate 패턴으로 기종 대응, SSL·Network Reachability로 통신 안정화.",
 								result:
-									"네이티브 수준의 정밀 진단 프레임워크를 구축하여 검사 정확도 99.9% 달성 및 사용자 편의성 확보.",
+									"실서비스에 투입 가능한 진단 플로우와 단기간 Swift 적용 경험 축적.",
+							},
+							{
+								problem:
+									"PWA에서 외관 검사 영상 촬영·업로드가 필요하고 브라우저 제약이 큼.",
+								thinking:
+									"Blob·Multipart 전송, MediaDevices로 카메라·스트림 제어, 반응형 검사 UI로 기종별 화면 대응.",
+								result:
+									"웹만으로도 검사 목업·앱과 연동 가능한 촬영·전송 경로 확보.",
 							},
 						]
 					: [
 							{
 								problem:
-									"Faced technical limits in accessing FaceID and precision sensor data due to PWA browser sandbox constraints.",
+									"Need reliable in-app hardware and pricing inspection flows.",
 								thinking:
-									"Developed native diagnostic modules in Swift and designed a hybrid bridge structure to bypass browser limitations without data loss.",
+									"Swift modules for camera, sensors, Face ID/Touch ID; Storyboard, Auto Layout, Delegates; SSL and reachability hardening.",
 								result:
-									"Successfully built a native-grade precision diagnostic framework, achieving 99.9% accuracy.",
+									"Shippable inspection flows and rapid Swift onboarding.",
+							},
+							{
+								problem:
+									"PWA exterior video capture/upload with tight browser limits.",
+								thinking:
+									"Blob/multipart uploads, MediaDevices for camera/streams, responsive inspection UI.",
+								result:
+									"Web-side capture/upload path aligned with app-side inspection.",
 							},
 						],
-			icon: <Terminal className="text-brand-accent" />,
 			color: "bg-purple-50/50",
 		},
 		{
 			id: "wnms",
 			title:
 				lang === "ko"
-					? "WNMS (Network Management)"
-					: "WNMS (Network Management)",
+					? "JEJU-WNMS"
+					: "JEJU-WNMS",
 			category: "Web",
 			subtitle:
 				lang === "ko"
-					? "대규모 무선 네트워크 장비 관제 및 지능형 모니터링"
-					: "Large-scale Wireless Network Device Management & Intelligent Monitoring",
-			tags: ["React", "Kakao Map API", "ECharts", "State Orchestration"],
+					? "무선 네트워크 장비(WNMS) 관제 대시보드"
+					: "Wireless network (WNMS) operations dashboard",
+			tags: [
+				"React",
+				"Redux Toolkit",
+				"MUI",
+				"ECharts",
+				"Kakao Map API",
+				"Axios",
+			],
 			images: [
 				"https://picsum.photos/seed/wnms1/1200/800",
 				"https://picsum.photos/seed/wnms2/1200/800",
@@ -224,24 +337,39 @@ export function buildPortfolioProjects(lang: "ko" | "en"): ResumeProject[] {
 					? [
 							{
 								problem:
-									"전국 단위 수만 개의 네트워크 장비 상태를 한눈에 파악하기 어렵고, 실시간 트래픽 데이터 시각화 시 렌더링 부하 발생.",
+									"전국 단위 AP 장비 상태를 지도·표·그래프로 한눈에 보기 어렵고 대용량 렌더링 부담.",
 								thinking:
-									"Kakao Map의 클러스터링 알고리즘을 도입해 시각적 노이즈를 제어하고, ECharts의 렌더링 파티셔닝 기술로 대용량 데이터 처리 최적화.",
+									"Kakao Map API로 위치·상태 마커 시각화, ECharts·MUI DataGrid로 트래픽·가동률·대량 리스트 처리, Row 클릭 시 상세 연동.",
 								result:
-									"장비 관제 효율 40% 개선 및 대용량 데이터 환경에서도 끊김 없는 실시간 모니터링 대시보드 구현.",
+									"관제 효율·데이터 연속성 있는 운영 화면 구축.",
+							},
+							{
+								problem:
+									"API 인증·세션이 화면마다 분산될 위험.",
+								thinking:
+									"Axios Interceptor로 토큰 주입, sessionStorage와 결합한 세션 유지.",
+								result:
+									"일관된 인증 흐름과 운영 안정성.",
 							},
 						]
 					: [
 							{
 								problem:
-									"Difficulty in overseeing tens of thousands of devices nationwide and rendering bottlenecks during real-time traffic visualization.",
+									"Hard to monitor nationwide AP health; heavy map/chart/grid rendering.",
 								thinking:
-									"Applied Kakao Map clustering algorithms to reduce visual noise and optimized large-scale data processing via ECharts rendering partitions.",
+									"Kakao Map markers, ECharts and MUI DataGrid for traffic/uptime/large lists; row click to detail views.",
 								result:
-									"Improved monitoring efficiency by 40% and delivered a lag-free real-time dashboard for massive data environments.",
+									"Better ops efficiency and continuous data drill-down.",
+							},
+							{
+								problem:
+									"Risk of scattered API auth/session handling.",
+								thinking:
+									"Axios interceptors for tokens plus sessionStorage-backed session flow.",
+								result:
+									"Consistent authenticated requests for operators.",
 							},
 						],
-			icon: <Globe className="text-brand-accent" />,
 			color: "bg-emerald-50/50",
 		},
 	];

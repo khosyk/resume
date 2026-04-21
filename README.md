@@ -142,56 +142,52 @@ src/
 
 ### 1. 열달후에 (Yeoldal) - App
 
-**임신·출산·육아 통합 관리 앱 (가입자 55만)**
+**임신·출산·육아 통합 관리 앱 (누적 가입자 약 55만)**
 
-- **기술 스택**: React Native, Reanimated, eCharts, Android 15
+- **기술 스택 (칩과 동일)**: React Native, MobX, REST API, Firebase, WebView, Reanimated, eCharts, Android 15
 - **핵심 성과**:
-  - Android 15 대응: 16KB 페이지 사이즈 메모리 이슈 선제적 분석 및 해결
-  - UI 안정성: Reanimated 기반 신규 컴포넌트로 헤더 깜빡임(Glitch) 현상 제거
-  - 차트 최적화: ScrollView 기반 커스텀 차트 설계로 네이티브 수준 스크롤 구현
-  - 아키텍처: 클래스형 컴포넌트의 함수형(Hooks) 전면 리팩토링으로 기술 부채 절감
+  - 안정성·구조: Crashlytics·Hooks 전환·Atomic Design 정리로 비정상 종료율 3.89% → 0.02%·40fps → 60fps 수준 개선
+  - 인터랙션·차트: Reanimated 헤더, 디바운스, ScrollView 기반 커스텀 차트
+  - OS 대응: Android 15·16KB 페이지 등 최신 환경 호환
 
 ### 2. 페스룸 케어 (Pethroom Care) - App
 
-**반려동물 IoT 서비스 전용 앱**
+**강아지·고양이 IoT 화장실 관리 앱**
 
-- **기술 스택**: React Native, WebSocket, Bluetooth, Atomic Design
+- **기술 스택 (칩과 동일)**: React Native, Redux Toolkit, JWT, Axios, Firebase, Lottie, styled-components
+- **링크**: [Google Play](https://play.google.com/store/apps/details?id=com.pethroom)
 - **핵심 성과**:
-  - 안정성 혁신: Crashlytics 기반 에러 추적 및 리팩토링으로 비정상 종료율 3.89% → 0.02% 개선
-  - 실시간 통신: WebSocket 기반 기기 상태 동기화 및 푸시 알림 시스템 구축
-  - UX 퍼포먼스: Reanimated 기반 인터랙션 최적화로 렌더링 성능 향상 (40fps → 60fps)
-  - 생산성 향상: Atomic Design 시스템 도입으로 개발 공수 20% 절감
+  - 인증: 이메일·SNS(카카오·구글·애플) 단일 진입점, JWT, Axios Interceptor로 중복 로그인 방어·토큰 만료 전역 처리
+  - 성능: memo·useCallback·FlatList 최적화로 메모리 약 15% 절감, 네비게이션 전환 속도 향상
+  - 출시: Firebase Dynamic Links, 푸시(Foreground/Background/Terminated), Lottie 스플래시·TestFlight, App/Play Store 런칭·운영
 
 ### 3. 페스룸 케어 Admin - Web
 
-**IoT 서비스 통합 관리 시스템**
+**반려동물 IoT 화장실 관리 앱 어드민**
 
-- **기술 스택**: React, MUI DataGrid, RBAC, Axios Interceptor
+- **기술 스택 (칩과 동일)**: React, Redux Toolkit, MUI, MUI DataGrid, Chart.js, AWS S3, Axios, RBAC
 - **핵심 성과**:
-  - 운영 효율화: RBAC(역할 기반 권한 제어) 시스템 구축으로 운영 효율 100% 달성
-  - 보안 인증: Axios Interceptor 기반 JWT 인증 로직 전역화 및 소셜 로그인 추상화
-  - 데이터 시각화: 대규모 기기 상태 및 사용자 데이터를 실시간 그리드와 차트로 구현
-  - 운영 자동화: 엑셀 커스텀 연동 및 대량 데이터 처리 로직 구축으로 운영 시간 단축
+  - 대시보드·DataGrid·Chart.js·Excel Bulk 업로드/다운로드로 데이터 관리 효율화
+  - RBAC·Axios Interceptor·세션·S3 정적 호스팅으로 보안·접근 제어 및 배포
+  - 레거시 미결 에러 정리 후 QA 성공률을 배포 가능 수준으로 회복
 
 ### 4. 핀다이렉트 중고폰 검사 - Native/PWA
 
-**네이티브 진단 프레임워크 & PWA**
+**iOS 네이티브 진단 + PWA 외관검사 (하이브리드)**
 
-- **기술 스택**: Swift, Native Module, Blob API, PWA
+- **기술 스택 (칩과 동일)**: Swift, React, PWA, Blob API, MediaDevices, REST API, Lottie, Storyboard
 - **핵심 성과**:
-  - Native 융합: Swift 단기 습득으로 카메라, 센서, FaceID 등 하드웨어 진단 모듈 개발
-  - 심층 디버깅: SSL 인증서 이슈 우회 및 Network Reachability 실시간 판단 로직 구축
-  - PWA 미디어: Blob/MediaDevices API 활용 영상 서버 전송 및 스트림 제어 최적화
+  - Swift: 카메라·센서·생체인식 진단, Storyboard·SSL·Reachability
+  - PWA: Blob·MediaDevices·반응형 검사 UI로 외관 촬영·전송
 
-### 5. WNMS - Web
+### 5. JEJU-WNMS - Web
 
-**네트워크 장비(AP) 관제 대시보드**
+**무선 네트워크 장비(WNMS) 관제 대시보드**
 
-- **기술 스택**: React, Redux-Toolkit, MUI, ECharts, Kakao Map API
+- **기술 스택 (칩과 동일)**: React, Redux Toolkit, MUI, ECharts, Kakao Map API, Axios
 - **핵심 성과**:
-  - 지도 기반 관제: Kakao Map API 연동 및 마커 커스터마이징으로 장비 상태 시각화
-  - 데이터 시각화: ECharts 활용 트래픽 통계 및 MUI DataGrid 활용 대용량 리스트 최적화
-  - 보안 및 세션: Axios Interceptor와 sessionStorage를 결합한 안정적인 인증 체계 구축
+  - 지도·마커·ECharts·DataGrid로 관제·대용량 리스트
+  - Axios Interceptor·sessionStorage 기반 세션·인증 일원화
 
 ## 🛠 설치 및 실행 (Setup & Run)
 

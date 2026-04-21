@@ -24,7 +24,6 @@ import {
 } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { buildPortfolioProjects } from "./domain/project/model/projects";
-import type { ResumeProject } from "./domain/project/model/types";
 import { ProjectCard } from "./domain/project/ui/ProjectCard";
 import { fadeIn, staggerContainer } from "./shared/lib/motion";
 import { ContactModal } from "./shared/ui/ContactModal";
@@ -36,9 +35,6 @@ import { TechCategory } from "./shared/ui/TechCategory";
 export default function App() {
 	const [scrolled, setScrolled] = useState(false);
 	const [activeTab, setActiveTab] = useState("All");
-	const [selectedProject, setSelectedProject] = useState<ResumeProject | null>(
-		null,
-	);
 	const [lang, setLang] = useState<"ko" | "en">("ko");
 	const [contactOpen, setContactOpen] = useState(false);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -92,11 +88,7 @@ export default function App() {
 			projects: {
 				title: "주요 프로젝트",
 				desc: "실제 비즈니스 가치를 창출한 핵심 프로젝트 경험입니다.",
-				gallery: "갤러리 보기",
-				download: "앱 다운로드",
-				visit: "사이트 방문",
 				achievements: "핵심 성과",
-				impact: "프로젝트 임팩트",
 				problem: "문제",
 				thinking: "사고",
 				result: "결과",
@@ -150,7 +142,8 @@ export default function App() {
 				close: "닫기",
 				missingKey:
 					"연락 폼을 쓰려면 .env에 VITE_WEB3FORMS_ACCESS_KEY를 설정해 주세요. (무료: web3forms.com)",
-				validation: "이름·이메일·내용을 모두 입력하고, 이메일 형식을 확인해 주세요.",
+				validation:
+					"이름·이메일·내용을 모두 입력하고, 이메일 형식을 확인해 주세요.",
 			},
 		},
 		en: {
@@ -197,11 +190,7 @@ export default function App() {
 			projects: {
 				title: "Featured Projects",
 				desc: "Key project experiences that created real business value.",
-				gallery: "View Gallery",
-				download: "Download App",
-				visit: "Visit Site",
 				achievements: "Key Achievements",
-				impact: "Project Impact",
 				problem: "Problem",
 				thinking: "Thinking",
 				result: "Result",
@@ -360,7 +349,8 @@ export default function App() {
 
 			{/* Navigation */}
 			<nav
-				className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "glass py-3 shadow-sm" : "py-6"}`}>
+				className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "glass py-3 shadow-sm" : "py-6"}`}
+			>
 				<div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
 					<div className="flex items-center gap-2">
 						<div className="w-8 h-8 bg-brand-primary rounded-full flex items-center justify-center text-white font-bold text-xs">
@@ -373,41 +363,48 @@ export default function App() {
 					<div className="hidden md:flex items-center gap-8 text-sm font-medium text-brand-secondary">
 						<a
 							href="#profile"
-							className="hover:text-brand-primary transition-colors">
+							className="hover:text-brand-primary transition-colors"
+						>
 							{t.nav.profile}
 						</a>
 						<a
 							href="#stats"
-							className="hover:text-brand-primary transition-colors">
+							className="hover:text-brand-primary transition-colors"
+						>
 							{t.nav.impact}
 						</a>
 						<a
 							href="#tech"
-							className="hover:text-brand-primary transition-colors">
+							className="hover:text-brand-primary transition-colors"
+						>
 							{t.nav.stack}
 						</a>
 						<a
 							href="#projects"
-							className="hover:text-brand-primary transition-colors">
+							className="hover:text-brand-primary transition-colors"
+						>
 							{t.nav.projects}
 						</a>
 						<a
 							href="#career"
-							className="hover:text-brand-primary transition-colors">
+							className="hover:text-brand-primary transition-colors"
+						>
 							{t.nav.career}
 						</a>
 					</div>
 					<div className="flex items-center gap-4">
 						<button
 							onClick={() => setLang(lang === "ko" ? "en" : "ko")}
-							className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest hover:text-brand-accent transition-colors">
+							className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest hover:text-brand-accent transition-colors"
+						>
 							<Languages size={16} />
 							<span>{lang === "ko" ? "EN" : "KO"}</span>
 						</button>
 						<button
 							type="button"
 							onClick={() => setContactOpen(true)}
-							className="px-4 py-2 bg-brand-primary text-white text-sm font-semibold rounded-full hover:bg-brand-secondary transition-all">
+							className="px-4 py-2 bg-brand-primary text-white text-sm font-semibold rounded-full hover:bg-brand-secondary transition-all"
+						>
 							{t.nav.contact}
 						</button>
 					</div>
@@ -422,17 +419,20 @@ export default function App() {
 							initial="initial"
 							animate="animate"
 							variants={staggerContainer}
-							className="grid lg:grid-cols-[1fr_400px] gap-12 items-end">
+							className="grid lg:grid-cols-[1fr_400px] gap-12 items-end"
+						>
 							<motion.div>
 								<motion.div
 									variants={fadeIn}
-									className="inline-flex items-center gap-2 px-3 py-1 bg-brand-surface border border-brand-border rounded-full text-xs font-bold text-brand-accent mb-6">
+									className="inline-flex items-center gap-2 px-3 py-1 bg-brand-surface border border-brand-border rounded-full text-xs font-bold text-brand-accent mb-6"
+								>
 									<Zap size={14} />
 									<span>{t.hero.badge}</span>
 								</motion.div>
 								<motion.h1
 									variants={fadeIn}
-									className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.95] mb-8 text-brand-primary">
+									className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.95] mb-8 text-brand-primary"
+								>
 									{lang === "ko" ? (
 										<>
 											<span className="text-[calc(1em+4px)]">55만</span>
@@ -457,13 +457,15 @@ export default function App() {
 								</motion.h1>
 								<motion.p
 									variants={fadeIn}
-									className="text-xl md:text-2xl text-brand-secondary max-w-2xl leading-relaxed mb-10 text-balance">
+									className="text-xl md:text-2xl text-brand-secondary max-w-2xl leading-relaxed mb-10 text-balance"
+								>
 									{t.hero.desc}
 								</motion.p>
 
 								<motion.div
 									variants={fadeIn}
-									className="flex flex-wrap gap-6 items-center">
+									className="flex flex-wrap gap-6 items-center"
+								>
 									<div className="flex items-center gap-2 text-sm font-medium">
 										<Mail size={18} className="text-brand-accent" />
 										<span>hosy12@gmail.com</span>
@@ -477,10 +479,12 @@ export default function App() {
 											href="https://heeunlee.notion.site/325e4eb522558063b927e485e4511c28?pvs=74"
 											target="_blank"
 											rel="noopener noreferrer"
-											className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent">
+											className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent"
+										>
 											<span
 												className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-[15px] font-black leading-none text-brand-secondary"
-												aria-hidden>
+												aria-hidden
+											>
 												N
 											</span>
 											<span className="leading-none">{t.hero.resume}</span>
@@ -489,10 +493,12 @@ export default function App() {
 											href="https://heeunlee.notion.site/321e4eb522558019a22ef41d4080ed30?pvs=74"
 											target="_blank"
 											rel="noopener noreferrer"
-											className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent">
+											className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent"
+										>
 											<span
 												className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-[15px] font-black leading-none text-brand-secondary"
-												aria-hidden>
+												aria-hidden
+											>
 												N
 											</span>
 											<span className="leading-none">{t.hero.coverLetter}</span>
@@ -503,14 +509,16 @@ export default function App() {
 											href="https://github.com/khosyk"
 											target="_blank"
 											rel="noreferrer"
-											className="p-2 border border-brand-border rounded-full hover:bg-brand-surface transition-colors">
+											className="p-2 border border-brand-border rounded-full hover:bg-brand-surface transition-colors"
+										>
 											<Github size={20} />
 										</a>
 										<a
 											href="https://www.linkedin.com/"
 											target="_blank"
 											rel="noreferrer"
-											className="p-2 border border-brand-border rounded-full hover:bg-brand-surface transition-colors">
+											className="p-2 border border-brand-border rounded-full hover:bg-brand-surface transition-colors"
+										>
 											<Linkedin size={20} />
 										</a>
 									</div>
@@ -519,7 +527,8 @@ export default function App() {
 
 							<motion.div
 								variants={fadeIn}
-								className="bg-brand-surface border border-brand-border p-8 rounded-3xl shadow-xl lg:translate-y-12">
+								className="bg-brand-surface border border-brand-border p-8 rounded-3xl shadow-xl lg:translate-y-12"
+							>
 								<h3 className="text-xs font-bold uppercase tracking-widest text-brand-secondary mb-6">
 									{t.hero.summaryTitle}
 								</h3>
@@ -554,14 +563,16 @@ export default function App() {
 				{/* Stats Section */}
 				<section
 					id="stats"
-					className="pt-12 pb-20 bg-brand-primary text-white overflow-hidden relative">
+					className="pt-12 pb-20 bg-brand-primary text-white overflow-hidden relative"
+				>
 					<div className="max-w-7xl mx-auto px-6">
 						<motion.div
 							initial="initial"
 							whileInView="animate"
 							viewport={{ once: true }}
 							variants={staggerContainer}
-							className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+							className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12"
+						>
 							<motion.div variants={fadeIn}>
 								<StatItem
 									label={t.stats.stability}
@@ -612,7 +623,8 @@ export default function App() {
 							whileInView="animate"
 							viewport={{ once: true, margin: "-100px" }}
 							variants={staggerContainer}
-							className="flex flex-col md:flex-row gap-12">
+							className="flex flex-col md:flex-row gap-12"
+						>
 							<motion.div variants={fadeIn} className="md:w-1/3">
 								<h2 className="text-4xl font-black tracking-tighter mb-6 uppercase">
 									{t.tech.title}
@@ -697,12 +709,10 @@ export default function App() {
 					</div>
 				</section>
 
-				{/* Projects Section */}
-				<section
-					id="projects"
-					className="py-24 px-4 md:px-6 bg-brand-surface overflow-hidden">
-					<div className="">
-						<div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-end mb-12 gap-8 text-center md:text-left">
+				{/* Projects Section — 헤더만 max-w-7xl, 가로 스크롤은 풀 너비(잘리지 않도록 overflow-hidden 미사용) */}
+				<section id="projects" className="py-24 bg-brand-surface">
+					<div className="max-w-7xl mx-auto w-full px-4 md:px-6 mb-12">
+						<div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-8 text-center md:text-left">
 							<div className="flex flex-col items-center md:items-start">
 								<h2 className="text-5xl font-black tracking-tighter uppercase mb-4">
 									{t.projects.title}
@@ -722,84 +732,77 @@ export default function App() {
 												activeTab === internalCat
 													? "bg-brand-primary text-white shadow-md"
 													: "text-brand-secondary hover:bg-brand-surface"
-											}`}>
+											}`}
+										>
 											{cat}
 										</button>
 									);
 								})}
 							</div>
 						</div>
+					</div>
 
-						{/* Horizontal Scroll Container — md+만 풀블리드, 모바일은 px-4로 화면 가장자리 16px */}
-						<div className="relative group md:-mx-6">
-							{/* Navigation Buttons */}
-							<div className="absolute top-1/2 -translate-y-1/2 left-4 z-10 hidden lg:block">
-								<button
-									onClick={() => {
-										const el = document.getElementById(
-											"project-scroll-container",
-										);
-										if (el) el.scrollBy({ left: -500, behavior: "smooth" });
-									}}
-									className="p-4 bg-white border border-brand-border rounded-full shadow-xl hover:bg-brand-primary hover:text-white transition-all">
-									<ChevronRight size={24} className="rotate-180" />
-								</button>
-							</div>
-							<div className="absolute top-1/2 -translate-y-1/2 right-4 z-10 hidden lg:block">
-								<button
-									onClick={() => {
-										const el = document.getElementById(
-											"project-scroll-container",
-										);
-										if (el) el.scrollBy({ left: 500, behavior: "smooth" });
-									}}
-									className="p-4 bg-white border border-brand-border rounded-full shadow-xl hover:bg-brand-primary hover:text-white transition-all">
-									<ChevronRight size={24} />
-								</button>
-							</div>
+					<div className="relative w-full min-w-0 group">
+						{/* Navigation Buttons — 뷰포트 좌우 여백에 맞춤 */}
+						<div className="absolute top-1/2 -translate-y-1/2 left-2 sm:left-4 z-10 hidden lg:block pointer-events-none">
+							<button
+								type="button"
+								onClick={() => {
+									const el = document.getElementById(
+										"project-scroll-container",
+									);
+									if (el) el.scrollBy({ left: -580, behavior: "smooth" });
+								}}
+								className="pointer-events-auto p-3 md:p-4 bg-white border border-brand-border rounded-full shadow-xl hover:bg-brand-primary hover:text-white transition-all"
+							>
+								<ChevronRight size={24} className="rotate-180" />
+							</button>
+						</div>
+						<div className="absolute top-1/2 -translate-y-1/2 right-2 sm:right-4 z-10 hidden lg:block pointer-events-none">
+							<button
+								type="button"
+								onClick={() => {
+									const el = document.getElementById(
+										"project-scroll-container",
+									);
+									if (el) el.scrollBy({ left: 580, behavior: "smooth" });
+								}}
+								className="pointer-events-auto p-3 md:p-4 bg-white border border-brand-border rounded-full shadow-xl hover:bg-brand-primary hover:text-white transition-all"
+							>
+								<ChevronRight size={24} />
+							</button>
+						</div>
 
-							<div
-								id="project-scroll-container"
-								ref={scrollContainerRef}
-								className="flex gap-4 md:gap-8 overflow-x-auto pb-12 snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab active:cursor-grabbing select-none">
-								{/* leading spacer — 데스크톱만 가운데 정렬용 */}
-								<div className="hidden md:block shrink-0 w-[10vw]" aria-hidden />
-								<AnimatePresence mode="popLayout">
-									{filteredProjects.map((project) => (
-										<motion.div
-											key={project.id}
-											layout
-											initial={{ opacity: 0, scale: 0.9 }}
-											animate={{ opacity: 1, scale: 1 }}
-											exit={{ opacity: 0, scale: 0.9 }}
-											transition={{ duration: 0.4 }}
-											className="shrink-0 snap-center w-[calc(100vw-2rem)] min-w-[calc(100vw-2rem)] sm:w-auto sm:min-w-[420px] md:min-w-[520px] lg:min-w-[620px]">
-											<ProjectCard
-												project={project}
-												t={t.projects}
-												onViewDetails={(p) => {
-													if (p.link) {
-														window.open(p.link, "_blank");
-													} else {
-														setSelectedProject(p);
-													}
-												}}
-											/>
-										</motion.div>
-									))}
-								</AnimatePresence>
-								<div className="hidden md:block shrink-0 w-[10vw]" aria-hidden />
-							</div>
-
-							{/* Scroll Indicators (Mobile) */}
-							<div className="flex justify-center gap-2 mt-4 md:hidden">
-								{filteredProjects.map((_, i) => (
-									<div
-										key={i}
-										className="w-1.5 h-1.5 rounded-full bg-brand-border"
-									/>
+						<div
+							id="project-scroll-container"
+							ref={scrollContainerRef}
+							className="flex gap-4 md:gap-8 overflow-x-auto overflow-y-visible pb-12 pt-1 snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab active:cursor-grabbing select-none w-full min-w-0 touch-pan-x px-4 sm:px-6 lg:px-10 xl:px-[max(1.25rem,calc((100vw-80rem)/2+1.25rem))]"
+						>
+							<AnimatePresence mode="popLayout">
+								{filteredProjects.map((project) => (
+									<motion.div
+										key={project.id}
+										layout
+										initial={{ opacity: 0, scale: 0.9 }}
+										animate={{ opacity: 1, scale: 1 }}
+										exit={{ opacity: 0, scale: 0.9 }}
+										transition={{ duration: 0.4 }}
+										// 모든 카드 동일 너비(브레이크포인트별 고정) — 스크롤만 넘치고 양옆은 잘리지 않음
+										className="shrink-0 snap-center w-[min(100%,calc(100vw-1.5rem))] min-w-[min(100%,calc(100vw-1.5rem))] max-w-[min(100%,calc(100vw-1.5rem))] sm:w-[28rem] sm:max-w-[28rem] sm:min-w-[28rem] md:w-[30rem] md:max-w-[30rem] md:min-w-[30rem] lg:w-[32rem] lg:max-w-[32rem] lg:min-w-[32rem] xl:w-[34rem] xl:max-w-[34rem] xl:min-w-[34rem]"
+									>
+										<ProjectCard project={project} t={t.projects} />
+									</motion.div>
 								))}
-							</div>
+							</AnimatePresence>
+						</div>
+
+						<div className="flex justify-center gap-2 mt-4 md:hidden px-4">
+							{filteredProjects.map((_, i) => (
+								<div
+									key={i}
+									className="w-1.5 h-1.5 rounded-full bg-brand-border"
+								/>
+							))}
 						</div>
 					</div>
 				</section>
@@ -807,17 +810,20 @@ export default function App() {
 				{/* Work Ethic Section */}
 				<section
 					ref={workEthicRef}
-					className="py-32 px-6 bg-brand-surface/30 relative overflow-hidden">
+					className="py-32 px-6 bg-brand-surface/30 relative overflow-hidden"
+				>
 					{/* Background Decorative Text */}
 					<div className="absolute inset-0 flex flex-col justify-between py-10 pointer-events-none select-none overflow-hidden">
 						<motion.div
 							style={{ x: xWork, opacity: 0.02 }}
-							className="text-[25vw] font-black leading-none">
+							className="text-[25vw] font-black leading-none"
+						>
 							WORK
 						</motion.div>
 						<motion.div
 							style={{ x: xEthic, opacity: 0.02 }}
-							className="text-[25vw] font-black leading-none self-end">
+							className="text-[25vw] font-black leading-none self-end"
+						>
 							ETHIC
 						</motion.div>
 					</div>
@@ -827,7 +833,8 @@ export default function App() {
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
-							className="text-center mb-24">
+							className="text-center mb-24"
+						>
 							<h2 className="text-5xl font-black tracking-tighter uppercase mb-4">
 								{t.mindset.title}
 							</h2>
@@ -839,7 +846,8 @@ export default function App() {
 							whileInView="animate"
 							viewport={{ once: true, margin: "-100px" }}
 							variants={staggerContainer}
-							className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
+							className="grid md:grid-cols-1 lg:grid-cols-3 gap-8"
+						>
 							<motion.div variants={fadeIn} className="h-full">
 								<MindsetItem
 									icon={<Zap size={32} />}
@@ -873,7 +881,8 @@ export default function App() {
 							whileInView="animate"
 							viewport={{ once: true, margin: "-100px" }}
 							variants={staggerContainer}
-							className="grid md:grid-cols-2 gap-20">
+							className="grid md:grid-cols-2 gap-20"
+						>
 							<motion.div variants={fadeIn}>
 								<h2 className="text-4xl font-black tracking-tighter uppercase mb-12 flex items-center gap-4">
 									<Award className="text-brand-accent" /> {t.career.title}
@@ -934,14 +943,16 @@ export default function App() {
 							href="https://github.com/khosyk"
 							target="_blank"
 							rel="noreferrer"
-							className="p-2 border border-brand-border rounded-full text-brand-secondary hover:bg-brand-surface hover:text-brand-primary transition-colors">
+							className="p-2 border border-brand-border rounded-full text-brand-secondary hover:bg-brand-surface hover:text-brand-primary transition-colors"
+						>
 							<Github size={20} />
 						</a>
 						<a
 							href="https://www.linkedin.com/"
 							target="_blank"
 							rel="noreferrer"
-							className="p-2 border border-brand-border rounded-full text-brand-secondary hover:bg-brand-surface hover:text-brand-primary transition-colors">
+							className="p-2 border border-brand-border rounded-full text-brand-secondary hover:bg-brand-surface hover:text-brand-primary transition-colors"
+						>
 							<Linkedin size={20} />
 						</a>
 						<a
@@ -949,7 +960,8 @@ export default function App() {
 							target="_blank"
 							rel="noopener noreferrer"
 							className="w-9 h-9 border border-brand-border rounded-full text-brand-secondary hover:bg-brand-surface hover:text-brand-primary transition-colors flex items-center justify-center font-black text-sm"
-							title="Notion">
+							title="Notion"
+						>
 							N
 						</a>
 					</div>
@@ -967,105 +979,10 @@ export default function App() {
 						animate={{ opacity: 1, y: 0 }}
 						exit={{ opacity: 0, y: 20 }}
 						onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-						className="fixed bottom-8 right-8 z-50 p-4 bg-brand-primary text-white rounded-full shadow-2xl hover:bg-brand-secondary transition-all">
+						className="fixed bottom-8 right-8 z-50 p-4 bg-brand-primary text-white rounded-full shadow-2xl hover:bg-brand-secondary transition-all"
+					>
 						<ArrowUp size={24} />
 					</motion.button>
-				)}
-			</AnimatePresence>
-
-			{/* Image Gallery Modal */}
-			<AnimatePresence>
-				{selectedProject && (
-					<motion.div
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-						className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 bg-black/90 backdrop-blur-sm"
-						onClick={() => setSelectedProject(null)}>
-						<motion.div
-							initial={{ scale: 0.9, y: 20 }}
-							animate={{ scale: 1, y: 0 }}
-							exit={{ scale: 0.9, y: 20 }}
-							className="relative max-w-6xl w-full bg-white rounded-[2rem] overflow-hidden flex flex-col max-h-[90vh]"
-							onClick={(e) => e.stopPropagation()}>
-							<div className="p-6 border-b border-brand-border flex justify-between items-center bg-white sticky top-0 z-10">
-								<div>
-									<h3 className="text-2xl font-black tracking-tighter">
-										{selectedProject.title}
-									</h3>
-									<p className="text-brand-secondary text-sm font-medium">
-										{selectedProject.subtitle}
-									</p>
-								</div>
-								<button
-									onClick={() => setSelectedProject(null)}
-									className="p-2 hover:bg-brand-surface rounded-full transition-colors">
-									<Zap className="rotate-45" />
-								</button>
-							</div>
-
-							<div className="overflow-y-auto p-6 md:p-10 no-scrollbar">
-								<div
-									className={`grid gap-8 ${selectedProject.category === "App" ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4" : "grid-cols-1"}`}>
-									{selectedProject.images?.map((img: string, i: number) => (
-										<div key={i} className="space-y-2">
-											<img
-												src={img}
-												alt={`${selectedProject.title} screenshot ${i + 1}`}
-												className="w-full rounded-2xl shadow-lg border border-brand-border"
-												referrerPolicy="no-referrer"
-											/>
-											<p className="text-[10px] font-bold text-brand-secondary uppercase tracking-widest text-center">
-												{selectedProject.category === "App"
-													? `Screen ${i + 1}`
-													: `Dashboard View ${i + 1}`}
-											</p>
-										</div>
-									))}
-								</div>
-
-								<div className="mt-12 p-8 bg-brand-surface rounded-3xl">
-									<h4 className="text-sm font-black uppercase tracking-widest mb-6">
-										{t.projects.impact}
-									</h4>
-									<ul className="grid md:grid-cols-1 gap-6">
-										{selectedProject.achievements.map((item, i) => (
-											<li
-												key={i}
-												className="p-6 rounded-2xl border border-brand-border bg-white space-y-4">
-												<div>
-													<h5 className="text-[11px] font-black text-red-600 uppercase tracking-widest mb-1">
-														{t.projects.problem}
-													</h5>
-													<p className="text-brand-secondary text-sm font-medium leading-relaxed">
-														{item.problem}
-													</p>
-												</div>
-												<div className="h-px w-full bg-brand-border/60" />
-												<div>
-													<h5 className="text-[11px] font-black text-brand-accent uppercase tracking-widest mb-1">
-														{t.projects.thinking}
-													</h5>
-													<p className="text-brand-secondary text-sm font-medium leading-relaxed italic">
-														&ldquo;{item.thinking}&rdquo;
-													</p>
-												</div>
-												<div className="h-px w-full bg-brand-border/60" />
-												<div>
-													<h5 className="text-[11px] font-black text-brand-primary uppercase tracking-widest mb-1">
-														{t.projects.result}
-													</h5>
-													<p className="text-brand-primary text-sm font-bold leading-relaxed">
-														{item.result}
-													</p>
-												</div>
-											</li>
-										))}
-									</ul>
-								</div>
-							</div>
-						</motion.div>
-					</motion.div>
 				)}
 			</AnimatePresence>
 

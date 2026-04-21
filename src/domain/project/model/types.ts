@@ -1,5 +1,3 @@
-import type { ReactNode } from "react";
-
 export interface ProjectAchievement {
 	problem: string;
 	thinking: string;
@@ -15,6 +13,5 @@ export interface ResumeProject {
 	link?: string;
 	images: string[];
 	achievements: ProjectAchievement[];
-	icon: ReactNode;
 	color: string;
 }
