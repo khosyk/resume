@@ -85,47 +85,50 @@
 
 **FSD vs Atomic:** FSD는 **기능·도메인·의존 방향**이 축이고, Atomic은 **UI 조각 크기**가 충이다. 서로 배타가 아니라 `shared/ui` 안을 Atomic 규칙으로 쓰는 식으로 **병행**하기도 한다.
 
-### 이 저장소를 분리할 때 권장하는 폴더 구조 (목표안)
+### 실제 소스 폴더 구조 (도메인 + shared)
 
-현재는 단일 `App.tsx`에 집중되어 있다. **최소 분리** 시 아래처럼 두는 것을 권장한다. (FSD 전체를 도입하지 않고, **경량 Feature Slice + 공용 UI**에 가깝다.)
+FSD 전층 대신, **프로젝트 포트폴리오 도메인**과 **공용 UI·유틸**만 나눴다. 단일 페이지이므로 `App.tsx`는 언어·필터·모달 등 **페이지 단위 상태와 섹션 조립(오케스트레이터)** 역할을 유지한다.
 
 ```txt
 src/
-  App.tsx                 # 라우팅·전역 상태·섹션 조립만 (오케스트레이터)
-  components/
-    ui/                   # 여러 섹션에서 재사용하는 작은 조각
+  App.tsx                          # 섹션 조립, i18n 객체(t), 페이지 상태
+  domain/
+    project/
+      model/
+        types.ts                   # ProjectAchievement, ResumeProject
+        projects.tsx               # buildPortfolioProjects(lang) — 카드 데이터·아이콘
+      ui/
+        ProjectCard.tsx            # 프로젝트 도메인 UI
+  shared/
+    lib/
+      motion.ts                    # fadeIn, staggerContainer (motion variants)
+    ui/
       StatItem.tsx
       TechCategory.tsx
-      ProjectCard.tsx
-      ...
-  features/
-    hero/
-      HeroSection.tsx
-    projects/
-      ProjectsSection.tsx
-      projects.data.ts    # 프로젝트 카드 데이터·타입
-    career/
-      CareerSection.tsx
-  shared/                 # (선택) 상수, copy 타입, 공용 유틸
-    i18n/
+      MindsetItem.tsx
+      ExperienceItem.tsx
+      ContactModal.tsx             # 연락 모달 (Web3Forms)
+  main.tsx
+  index.css
 ```
+
+- **`domain/project`**: 이력에 실린 **프로젝트 카드**에만 쓰이는 타입·데이터·`ProjectCard`. 다른 도메인이 생기면 `domain/<이름>/`을 같은 패턴으로 추가하면 된다.
+- **`shared/ui`**: 여러 섹션에서 쓰는 **표현 위주 컴포넌트**와 연락 모달.
+- **`shared/lib`**: 애니메이션 variant 등 **도메인과 무관한 작은 유틸**.
 
 ### 왜 이 분할 방식을 선택하는가
 
 - **FSD 전체를 쓰지 않는 이유**  
-  페이지가 하나이고 팀 규모가 작다. `widgets` / `entities` 레이어까지 두면 **규칙 학습·보일러플레이트**가 이득보다 커질 수 있다.
+  페이지가 하나이고 팀 규모가 작다. `widgets` / `pages` 레이어까지 두면 **규칙 비용**이 이득보다 클 수 있다.
 
-- **Atomic만으로 끝내지 않는 이유**  
-  Atomic은 UI 크기 분류에는 좋지만, **히어로·프로젝트·경력** 같은 **기능·콘텐츠 경계**는 `features/*`로 나누는 편이 수정 시 찾기 쉽다.
+- **도메인 폴더를 둔 이유**  
+  프로젝트 성과·카피·카드 UI가 한 덩어리로 커졌을 때 **`domain/project`** 아래에서만 찾으면 되어 수정 경로가 짧다.
 
-- **`components/ui`를 따로 두는 이유**  
-  카드·스탯·태그 칩 등은 여러 섹션에서 재사용된다. **표현 전용(presentational)** 으로 빼면 `App`과 섹션 파일이 짧아지고 리뷰 포인트가 명확해진다.
+- **`shared`만 별도로 둔 이유**  
+  스탯·기술 태그·경력 타임라인·연락 모달은 **포트폴리오 전역에서 재사용**되는 표현 컴포넌트로 묶었다.
 
-- **`App`을 오케스트레이터로 남기는 이유**  
-  언어 전환, 프로젝트 필터, 모달, 스크롤 ref 등 **페이지 단위 상태**가 한곳에 모여 있다. 무리하게 전역 스토어를 도입하지 않아도 된다.
-
-- **점진적 이동이 가능**  
-  한 번에 전부 옮기지 않고, `StatItem` → `projects` 데이터 → `ProjectsSection` 순으로 옮겨도 동작을 유지하기 쉽다.
+- **`App.tsx`를 얇게 만들지 않은 이유 (현재)**  
+  i18n 문자열 전체가 `App` 안에 있어 파일 길이는 남아 있다. 필요 시 `shared/i18n/ko.ts` · `en.ts`로만 추가 분리하면 된다.
 
 ## ✨ 주요 기능 (Key Features)
 
@@ -202,6 +205,21 @@ yarn dev
 # 프로덕션 빌드
 yarn build
 ```
+
+### 연락 폼 (Web3Forms)
+
+헤더 **연락하기**는 이메일 클라이언트 대신 모달 폼으로 메시지를 보냅니다. 백엔드 없이 동작하려면 [Web3Forms](https://web3forms.com) 무료 Access Key가 필요합니다.
+
+1. [web3forms.com](https://web3forms.com)에서 Access Key 발급  
+2. 프로젝트 루트에 `.env` 파일을 만들고 아래 추가 (`.env.example` 참고):
+
+   ```bash
+   VITE_WEB3FORMS_ACCESS_KEY=여기에_발급받은_키
+   ```
+
+3. `yarn dev` 재시작 후 연락하기 동작 확인  
+
+수신 메일함은 Web3Forms 대시보드에서 연결한 주소로 전달됩니다.
 
 ---
 

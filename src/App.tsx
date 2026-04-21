@@ -10,7 +10,6 @@ import {
 	Github,
 	Linkedin,
 	Zap,
-	BarChart3,
 	Layers,
 	Smartphone,
 	Globe,
@@ -24,33 +23,15 @@ import {
 	Languages,
 } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
-
-interface ResumeProject {
-	id: string;
-	title: string;
-	category: string;
-	subtitle: string;
-	tags: string[];
-	link?: string;
-	images: string[];
-	achievements: string[];
-	icon: React.ReactNode;
-	color: string;
-}
-
-const fadeIn = {
-	initial: { opacity: 0, y: 20 },
-	animate: { opacity: 1, y: 0 },
-	transition: { duration: 0.6, ease: "easeOut" },
-};
-
-const staggerContainer = {
-	animate: {
-		transition: {
-			staggerChildren: 0.1,
-		},
-	},
-};
+import { buildPortfolioProjects } from "./domain/project/model/projects";
+import type { ResumeProject } from "./domain/project/model/types";
+import { ProjectCard } from "./domain/project/ui/ProjectCard";
+import { fadeIn, staggerContainer } from "./shared/lib/motion";
+import { ContactModal } from "./shared/ui/ContactModal";
+import { ExperienceItem } from "./shared/ui/ExperienceItem";
+import { MindsetItem } from "./shared/ui/MindsetItem";
+import { StatItem } from "./shared/ui/StatItem";
+import { TechCategory } from "./shared/ui/TechCategory";
 
 export default function App() {
 	const [scrolled, setScrolled] = useState(false);
@@ -59,8 +40,12 @@ export default function App() {
 		null,
 	);
 	const [lang, setLang] = useState<"ko" | "en">("ko");
+	const [contactOpen, setContactOpen] = useState(false);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 	const workEthicRef = useRef<HTMLDivElement>(null);
+	const web3formsAccessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY as
+		| string
+		| undefined;
 
 	const t = {
 		ko: {
@@ -112,6 +97,9 @@ export default function App() {
 				visit: "사이트 방문",
 				achievements: "핵심 성과",
 				impact: "프로젝트 임팩트",
+				problem: "문제",
+				thinking: "사고",
+				result: "결과",
 				cats: ["전체", "앱", "웹", "네이티브/PWA"],
 			},
 			mindset: {
@@ -148,6 +136,21 @@ export default function App() {
 			},
 			footer: {
 				built: "이희운이 디자인하고 구축함 © 2026",
+			},
+			contactModal: {
+				title: "연락하기",
+				nameLabel: "이름",
+				emailLabel: "이메일",
+				messageLabel: "내용",
+				submit: "보내기",
+				sending: "전송 중…",
+				sent: "메시지가 전송되었습니다. 확인 후 답장 드리겠습니다.",
+				sendError:
+					"전송에 실패했습니다. 잠시 후 다시 시도하거나 hosy12@gmail.com 으로 직접 메일 주세요.",
+				close: "닫기",
+				missingKey:
+					"연락 폼을 쓰려면 .env에 VITE_WEB3FORMS_ACCESS_KEY를 설정해 주세요. (무료: web3forms.com)",
+				validation: "이름·이메일·내용을 모두 입력하고, 이메일 형식을 확인해 주세요.",
 			},
 		},
 		en: {
@@ -199,6 +202,9 @@ export default function App() {
 				visit: "Visit Site",
 				achievements: "Key Achievements",
 				impact: "Project Impact",
+				problem: "Problem",
+				thinking: "Thinking",
+				result: "Result",
 				cats: ["All", "App", "Web", "Native/PWA"],
 			},
 			mindset: {
@@ -235,6 +241,21 @@ export default function App() {
 			},
 			footer: {
 				built: "Designed & Built by Heeun Lee © 2026",
+			},
+			contactModal: {
+				title: "Contact",
+				nameLabel: "Name",
+				emailLabel: "Email",
+				messageLabel: "Message",
+				submit: "Send",
+				sending: "Sending…",
+				sent: "Your message was sent. I will get back to you soon.",
+				sendError:
+					"Could not send. Please try again later or email hosy12@gmail.com directly.",
+				close: "Close",
+				missingKey:
+					"Set VITE_WEB3FORMS_ACCESS_KEY in .env to enable this form. (Free tier: web3forms.com)",
+				validation: "Please fill in all fields and use a valid email address.",
 			},
 		},
 	}[lang];
@@ -315,157 +336,7 @@ export default function App() {
 		};
 	}, []);
 
-	const projects: ResumeProject[] = [
-		{
-			id: "yeoldal",
-			title: lang === "ko" ? "열달후에" : "Yeoldal",
-			category: "App",
-			subtitle:
-				lang === "ko"
-					? "임신·출산·육아 통합 앱 (가입자 55만·MAU 10만)"
-					: "Pregnancy & parenting app (550K signups, 100K MAU)",
-			tags: ["React Native", "Reanimated", "eCharts", "Android 15"],
-			link: "https://apps.apple.com/kr/app/%EC%97%B4%EB%8B%AC%ED%9B%84%EC%97%90-%EC%9E%84%EC%8B%A0-%EC%B6%9C%EC%82%B0-%EC%9C%A1%EC%95%84-%ED%95%84%EC%88%98-%EC%95%B1/id1491862784",
-			images: [
-				"https://picsum.photos/seed/yeoldal1/800/1200",
-				"https://picsum.photos/seed/yeoldal2/800/1200",
-			],
-			achievements:
-				lang === "ko"
-					? [
-							"서비스 안정성: Crashlytics 분석·클래스형→함수형(Hooks) 전환으로 비정상 종료율 3.89% → 0.02%",
-							"UX·성능: Reanimated 헤더 교체·API 디바운싱으로 40fps → 60fps, 헤더 깜빡임(Glitch) 제거",
-							"차트: eCharts 스크롤 지연을 줄이기 위해 ScrollView 기반 커스텀 차트 설계·구현",
-							"Android 15: 16KB 페이지 사이즈 메모리 이슈 선제 분석·라이브러리 호환으로 연속 서비스 유지",
-							"구조: Atomic Design·모듈화·스니펫에 기여 전체 코드량 약 20% 절감, 기술 부채 축소",
-						]
-					: [
-							"Stability: Crashlytics + class-to-hooks migration; crash rate 3.89% → 0.02%",
-							"UX: Reanimated header & API debouncing; 40fps → 60fps; removed header glitch",
-							"Charts: Custom ScrollView-based charts to reduce eCharts scroll lag",
-							"Android 15: 16KB page-size analysis and library compatibility for continuity",
-							"Structure: Contributions to Atomic Design & modularization; 20% less code, less tech debt",
-						],
-			icon: <Smartphone className="text-brand-accent" />,
-			color: "bg-blue-50",
-		},
-		{
-			id: "pethroom-app",
-			title: lang === "ko" ? "페스룸 케어 App" : "Pethroom Care App",
-			category: "App",
-			subtitle:
-				lang === "ko" ? "반려동물 IoT 앱 (비스키트)" : "Pet IoT app (Biskit)",
-			tags: ["React Native", "Axios", "Bluetooth"],
-			link: "https://apps.apple.com/kr/app/%ED%8E%98%EC%8A%A4%EB%A3%B8-%EC%BC%80%EC%96%B4-pethroom-care/id1634567890",
-			images: [
-				"https://picsum.photos/seed/pethroom1/800/1200",
-				"https://picsum.photos/seed/pethroom2/800/1200",
-			],
-			achievements:
-				lang === "ko"
-					? [
-							"통합 인증: Axios Interceptor로 JWT·소셜 로그인(카카오·구글·애플)을 단일 진입점으로 추상화",
-							"보안: Response Interceptor로 중복 로그인 방어·토큰 만료 등 예외를 전역에서 처리",
-							"성능: FlatList 최적화·메모이제이션으로 IoT 데이터 렌더링 지연 완화, 런타임 메모리 약 15% 절감",
-						]
-					: [
-							"Auth: Axios interceptors; JWT & social login (Kakao, Google, Apple) behind one entry",
-							"Security: Response interceptor for duplicate-login defense and token expiry handling",
-							"Performance: FlatList tuning & memoization; less IoT list lag; ~15% lower runtime memory",
-						],
-			icon: <Zap className="text-brand-accent" />,
-			color: "bg-orange-50",
-		},
-		{
-			id: "pethroom-admin",
-			title: lang === "ko" ? "페스룸 케어 Admin" : "Pethroom Care Admin",
-			category: "Web",
-			subtitle:
-				lang === "ko"
-					? "IoT 운영 어드민 (비스키트)"
-					: "Pet IoT operations admin (Biskit)",
-			tags:
-				lang === "ko"
-					? ["React", "MUI DataGrid", "RBAC", "Excel 연동"]
-					: ["React", "MUI DataGrid", "RBAC", "Excel"],
-			images: [
-				"https://picsum.photos/seed/admin1/1200/800",
-				"https://picsum.photos/seed/admin2/1200/800",
-				"https://picsum.photos/seed/admin3/1200/800",
-			],
-			achievements:
-				lang === "ko"
-					? [
-							"운영·QA: 레거시 결함 전수 조사 후 MUI DataGrid 기반 RBAC 구축, QA 통과·운영 효율 60% → 100%",
-							"권한·데이터: 역할별 화면·대량 IoT·케어 데이터 운영 흐름 정리",
-							"엑셀 커스텀 연동으로 운영팀 데이터 핸들링 생산성 향상",
-						]
-					: [
-							"Ops & QA: Legacy defect triage; RBAC on MUI DataGrid; QA & ops efficiency 60% → 100%",
-							"RBAC & data: Role-based views for large-scale device and care data",
-							"Custom Excel integration for faster ops workflows",
-						],
-			icon: <BarChart3 className="text-brand-accent" />,
-			color: "bg-amber-50",
-		},
-		{
-			id: "findirect",
-			title:
-				lang === "ko"
-					? "핀다이렉트 중고폰 검사"
-					: "Findirect used-phone inspection",
-			category: "Native/PWA",
-			subtitle:
-				lang === "ko"
-					? "네이티브 진단 프레임워크 & PWA"
-					: "Native diagnostic framework & PWA",
-			tags: ["Swift", "Native Module", "Blob API", "PWA"],
-			images: [
-				"https://picsum.photos/seed/findirect1/800/1200",
-				"https://picsum.photos/seed/findirect2/1200/800",
-			],
-			achievements:
-				lang === "ko"
-					? [
-							"Native 융합: Swift 단기 습득으로 카메라, 센서, FaceID 등 하드웨어 진단 모듈 개발",
-							"심층 디버깅: SSL 인증서 이슈 우회 및 Network Reachability 실시간 판단 로직 구축",
-							"PWA 미디어 처리: Blob/MediaDevices API 활용 영상 서버 전송 및 스트림 제어 최적화",
-						]
-					: [
-							"Native Fusion: Developed hardware diagnostic modules (Camera, Sensors, FaceID) via Swift",
-							"Deep Debugging: SSL certificate bypass and real-time Network Reachability logic",
-							"PWA Media: Optimized video streaming and server transfer via Blob/MediaDevices API",
-						],
-			icon: <Terminal className="text-brand-accent" />,
-			color: "bg-purple-50",
-		},
-		{
-			id: "wnms",
-			title: lang === "ko" ? "JEJU-WNMS" : "JEJU-WNMS",
-			category: "Web",
-			subtitle:
-				lang === "ko"
-					? "전국·지역 AP 장비 상태 모니터링 관제 대시보드"
-					: "Nationwide/regional AP monitoring & control dashboard",
-			tags: ["React", "Redux Toolkit", "MUI", "ECharts", "Kakao Map API"],
-			images: [
-				"https://picsum.photos/seed/wnms1/1200/800",
-				"https://picsum.photos/seed/wnms2/1200/800",
-			],
-			achievements:
-				lang === "ko"
-					? [
-							"Kakao Map API·마커 커스터마이징으로 장비 상태(정상/장애) 실시간 시각화",
-							"ECharts로 트래픽·가동률 등 네트워크 통계를 직관적 그래프로 제공",
-						]
-					: [
-							"Kakao Map + custom markers for live AP health visualization",
-							"ECharts dashboards for traffic, uptime, and network statistics",
-						],
-			icon: <Globe className="text-brand-accent" />,
-			color: "bg-emerald-50",
-		},
-	];
+	const projects = buildPortfolioProjects(lang);
 
 	const filteredProjects =
 		activeTab === "All"
@@ -533,11 +404,12 @@ export default function App() {
 							<Languages size={16} />
 							<span>{lang === "ko" ? "EN" : "KO"}</span>
 						</button>
-						<a
-							href="mailto:hosy12@gmail.com"
+						<button
+							type="button"
+							onClick={() => setContactOpen(true)}
 							className="px-4 py-2 bg-brand-primary text-white text-sm font-semibold rounded-full hover:bg-brand-secondary transition-all">
 							{t.nav.contact}
-						</a>
+						</button>
 					</div>
 				</div>
 			</nav>
@@ -828,7 +700,7 @@ export default function App() {
 				{/* Projects Section */}
 				<section
 					id="projects"
-					className="py-24 px-6 bg-brand-surface overflow-hidden">
+					className="py-24 px-4 md:px-6 bg-brand-surface overflow-hidden">
 					<div className="">
 						<div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-end mb-12 gap-8 text-center md:text-left">
 							<div className="flex flex-col items-center md:items-start">
@@ -858,8 +730,8 @@ export default function App() {
 							</div>
 						</div>
 
-						{/* Horizontal Scroll Container */}
-						<div className="relative group -mx-6">
+						{/* Horizontal Scroll Container — md+만 풀블리드, 모바일은 px-4로 화면 가장자리 16px */}
+						<div className="relative group md:-mx-6">
 							{/* Navigation Buttons */}
 							<div className="absolute top-1/2 -translate-y-1/2 left-4 z-10 hidden lg:block">
 								<button
@@ -889,9 +761,9 @@ export default function App() {
 							<div
 								id="project-scroll-container"
 								ref={scrollContainerRef}
-								className="flex gap-6 md:gap-8 overflow-x-auto pb-12 snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab active:cursor-grabbing select-none">
-								{/* leading spacer for proper centering */}
-								<div className="shrink-0 w-[10vw]" aria-hidden />
+								className="flex gap-4 md:gap-8 overflow-x-auto pb-12 snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab active:cursor-grabbing select-none">
+								{/* leading spacer — 데스크톱만 가운데 정렬용 */}
+								<div className="hidden md:block shrink-0 w-[10vw]" aria-hidden />
 								<AnimatePresence mode="popLayout">
 									{filteredProjects.map((project) => (
 										<motion.div
@@ -901,7 +773,7 @@ export default function App() {
 											animate={{ opacity: 1, scale: 1 }}
 											exit={{ opacity: 0, scale: 0.9 }}
 											transition={{ duration: 0.4 }}
-											className="min-w-[280px] w-[80vw] sm:w-auto sm:min-w-[420px] md:min-w-[520px] lg:min-w-[620px] snap-center">
+											className="shrink-0 snap-center w-[calc(100vw-2rem)] min-w-[calc(100vw-2rem)] sm:w-auto sm:min-w-[420px] md:min-w-[520px] lg:min-w-[620px]">
 											<ProjectCard
 												project={project}
 												t={t.projects}
@@ -916,8 +788,7 @@ export default function App() {
 										</motion.div>
 									))}
 								</AnimatePresence>
-								{/* trailing spacer so last card can center */}
-								<div className="shrink-0 w-[10vw]" aria-hidden />
+								<div className="hidden md:block shrink-0 w-[10vw]" aria-hidden />
 							</div>
 
 							{/* Scroll Indicators (Mobile) */}
@@ -1154,23 +1025,42 @@ export default function App() {
 								</div>
 
 								<div className="mt-12 p-8 bg-brand-surface rounded-3xl">
-									<h4 className="text-sm font-black uppercase tracking-widest mb-4">
+									<h4 className="text-sm font-black uppercase tracking-widest mb-6">
 										{t.projects.impact}
 									</h4>
-									<ul className="grid md:grid-cols-2 gap-4">
-										{selectedProject.achievements.map(
-											(item: string, i: number) => (
-												<li key={i} className="flex gap-3 items-start">
-													<CheckCircle2
-														size={16}
-														className="text-brand-accent mt-0.5"
-													/>
-													<p className="text-sm font-medium text-brand-secondary leading-relaxed">
-														{item}
+									<ul className="grid md:grid-cols-1 gap-6">
+										{selectedProject.achievements.map((item, i) => (
+											<li
+												key={i}
+												className="p-6 rounded-2xl border border-brand-border bg-white space-y-4">
+												<div>
+													<h5 className="text-[11px] font-black text-red-600 uppercase tracking-widest mb-1">
+														{t.projects.problem}
+													</h5>
+													<p className="text-brand-secondary text-sm font-medium leading-relaxed">
+														{item.problem}
 													</p>
-												</li>
-											),
-										)}
+												</div>
+												<div className="h-px w-full bg-brand-border/60" />
+												<div>
+													<h5 className="text-[11px] font-black text-brand-accent uppercase tracking-widest mb-1">
+														{t.projects.thinking}
+													</h5>
+													<p className="text-brand-secondary text-sm font-medium leading-relaxed italic">
+														&ldquo;{item.thinking}&rdquo;
+													</p>
+												</div>
+												<div className="h-px w-full bg-brand-border/60" />
+												<div>
+													<h5 className="text-[11px] font-black text-brand-primary uppercase tracking-widest mb-1">
+														{t.projects.result}
+													</h5>
+													<p className="text-brand-primary text-sm font-bold leading-relaxed">
+														{item.result}
+													</p>
+												</div>
+											</li>
+										))}
 									</ul>
 								</div>
 							</div>
@@ -1178,243 +1068,13 @@ export default function App() {
 					</motion.div>
 				)}
 			</AnimatePresence>
-		</div>
-	);
-}
 
-function StatItem({
-	label,
-	value,
-	subValue,
-	desc,
-	color = "text-white",
-	subValueColor = "bg-brand-accent/20 text-brand-accent",
-}: {
-	label: string;
-	value: string;
-	subValue: string;
-	desc: string;
-	color?: string;
-	subValueColor?: string;
-}) {
-	return (
-		<motion.div whileHover={{ y: -5 }} className="flex flex-col">
-			<span className="text-xs font-bold text-white/50 uppercase tracking-widest mb-2">
-				{label}
-			</span>
-			<span className={`text-5xl font-black tracking-tighter mb-1 ${color}`}>
-				{value}
-			</span>
-			<div
-				className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold w-fit mb-4 ${subValueColor}`}>
-				{subValue}
-			</div>
-			<p className="text-xs text-white/40 leading-tight">{desc}</p>
-		</motion.div>
-	);
-}
-
-function TechCategory({
-	title,
-	icon,
-	items,
-}: {
-	title: string;
-	icon: React.ReactNode;
-	items: string[];
-}) {
-	return (
-		<div className="space-y-4">
-			<div className="flex items-center gap-2 text-brand-primary">
-				{icon}
-				<h4 className="font-bold text-sm uppercase tracking-wider">{title}</h4>
-			</div>
-			<div className="flex flex-wrap gap-2">
-				{items.map((item, i) => (
-					<motion.span
-						key={item}
-						initial={{
-							backgroundColor: "rgba(248, 249, 250, 1)",
-							color: "rgba(108, 117, 125, 1)",
-							scale: 1,
-						}}
-						whileInView={{
-							backgroundColor: [
-								"rgba(248, 249, 250, 1)",
-								"rgba(226, 232, 240, 1)",
-								"rgba(255, 255, 255, 1)",
-								"rgba(226, 232, 240, 1)",
-								"rgba(248, 249, 250, 1)",
-							],
-							color: [
-								"rgba(108, 117, 125, 1)",
-								"rgba(15, 23, 42, 1)",
-								"rgba(0, 0, 0, 1)",
-								"rgba(15, 23, 42, 1)",
-								"rgba(108, 117, 125, 1)",
-							],
-							scale: [1, 1.05, 1.1, 1.05, 1],
-							boxShadow: [
-								"0 0 0 rgba(0,0,0,0)",
-								"0 0 15px rgba(255,255,255,0.5)",
-								"0 0 30px rgba(255,255,255,0.9), inset 0 0 15px rgba(255,255,255,0.8)",
-								"0 0 15px rgba(255,255,255,0.5)",
-								"0 0 0 rgba(0,0,0,0)",
-							],
-							borderColor: [
-								"rgba(222, 226, 230, 1)",
-								"rgba(255, 255, 255, 1)",
-								"rgba(255, 255, 255, 1)",
-								"rgba(255, 255, 255, 1)",
-								"rgba(222, 226, 230, 1)",
-							],
-						}}
-						viewport={{ once: false, amount: 0.8 }}
-						transition={{
-							duration: 2,
-							delay: i * 0.15,
-							ease: "easeInOut",
-							repeat: Infinity,
-							repeatDelay: 4,
-						}}
-						className="px-3 py-1 bg-brand-surface border border-brand-border rounded-md text-xs font-black relative overflow-hidden group">
-						<motion.div
-							initial={{ x: "-150%", skewX: -20 }}
-							whileInView={{ x: "250%" }}
-							transition={{
-								duration: 1.2,
-								delay: i * 0.15,
-								repeat: Infinity,
-								repeatDelay: 4.8,
-								ease: "linear",
-							}}
-							className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent pointer-events-none z-10"
-						/>
-						<span className="relative z-0">{item}</span>
-					</motion.span>
-				))}
-			</div>
-		</div>
-	);
-}
-
-interface ProjectCardStrings {
-	achievements: string;
-	gallery: string;
-	download: string;
-	visit: string;
-}
-
-function ProjectCard({
-	project,
-	t,
-	onViewDetails,
-}: {
-	project: ResumeProject;
-	t: ProjectCardStrings;
-	onViewDetails: (p: ResumeProject) => void;
-}) {
-	return (
-		<div className="h-full flex flex-col bg-white border border-brand-border rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group/card">
-			<div
-				className={`p-8 ${project.color} border-b border-brand-border flex justify-between items-start`}>
-				<div>
-					<div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover/card:scale-110 transition-transform duration-500">
-						{project.icon}
-					</div>
-					<h3 className="text-3xl font-black tracking-tighter mb-2">
-						{project.title}
-					</h3>
-					<p className="text-brand-secondary font-bold text-sm mb-4">
-						{project.subtitle}
-					</p>
-					<div className="flex flex-wrap gap-2">
-						{project.tags.map((tag: string) => (
-							<span
-								key={tag}
-								className="text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-brand-primary text-white rounded">
-								{tag}
-							</span>
-						))}
-					</div>
-				</div>
-			</div>
-			<div className="p-8 md:p-10 flex-grow flex flex-col">
-				<h4 className="text-[10px] font-black text-brand-secondary uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-					<div className="w-4 h-[1px] bg-brand-accent" />
-					{t.achievements}
-				</h4>
-				<ul className="space-y-4 flex-grow">
-					{project.achievements.map((item: string, i: number) => (
-						<li key={i} className="flex gap-3 items-start">
-							<div className="mt-1.5 w-1 h-1 rounded-full bg-brand-accent shrink-0" />
-							<p className="text-brand-secondary leading-relaxed text-sm font-medium">
-								{item}
-							</p>
-						</li>
-					))}
-				</ul>
-				<div className="mt-8 pt-6 border-t border-brand-border flex justify-between items-center">
-					<span className="text-[10px] font-bold text-brand-accent uppercase tracking-widest">
-						{project.category}
-					</span>
-					{project.link && project.category !== "App" && (
-						<button
-							onClick={() => onViewDetails(project)}
-							className="text-xs font-bold flex items-center gap-1 group/btn">
-							{t.visit}
-							<ChevronRight
-								size={14}
-								className="group-hover/btn:translate-x-1 transition-transform"
-							/>
-						</button>
-					)}
-				</div>
-			</div>
-		</div>
-	);
-}
-
-function MindsetItem({
-	icon,
-	title,
-	desc,
-}: {
-	icon: React.ReactNode;
-	title: string;
-	desc: string;
-}) {
-	return (
-		<div className="p-8 border border-brand-border rounded-3xl hover:bg-brand-surface transition-colors h-full flex flex-col">
-			<div className="text-brand-accent mb-6">{icon}</div>
-			<h4 className="text-xl font-bold mb-4">{title}</h4>
-			<p className="text-brand-secondary leading-relaxed text-sm flex-grow">
-				{desc}
-			</p>
-		</div>
-	);
-}
-
-function ExperienceItem({
-	company,
-	role,
-	period,
-	desc,
-}: {
-	company: string;
-	role: string;
-	period: string;
-	desc: string;
-}) {
-	return (
-		<div className="relative pl-8 border-l border-white/10">
-			<div className="absolute left-[-5px] top-0 w-[9px] h-[9px] rounded-full bg-brand-accent" />
-			<span className="text-xs font-bold text-brand-accent uppercase tracking-widest mb-2 block">
-				{period}
-			</span>
-			<h3 className="text-2xl font-bold mb-1">{company}</h3>
-			<p className="text-white/60 font-medium mb-4">{role}</p>
-			<p className="text-sm text-white/40 leading-relaxed">{desc}</p>
+			<ContactModal
+				isOpen={contactOpen}
+				onClose={() => setContactOpen(false)}
+				copy={t.contactModal}
+				accessKey={web3formsAccessKey}
+			/>
 		</div>
 	);
 }
