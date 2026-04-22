@@ -514,7 +514,7 @@ export default function App() {
 											<Github size={20} />
 										</a>
 										<a
-											href="https://www.linkedin.com/"
+											href="https://www.linkedin.com/in/heeun-lee-19911111hosy/?locale=ko"
 											target="_blank"
 											rel="noreferrer"
 											className="p-2 border border-brand-border rounded-full hover:bg-brand-surface transition-colors"
@@ -948,7 +948,7 @@ export default function App() {
 							<Github size={20} />
 						</a>
 						<a
-							href="https://www.linkedin.com/"
+							href="https://www.linkedin.com/in/heeun-lee-19911111hosy/?locale=ko"
 							target="_blank"
 							rel="noreferrer"
 							className="p-2 border border-brand-border rounded-full text-brand-secondary hover:bg-brand-surface hover:text-brand-primary transition-colors"
