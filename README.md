@@ -64,25 +64,6 @@
 - **홍보용**  
   경력 소개를 스택-성과-문제해결 흐름으로 연결해, "무엇을 했는지"보다 "왜 잘하는지"가 보이도록 구성했습니다.
 
-## 📐 아키텍처 개념 요약 & 폴더 구조 (학습용)
-
-아래는 프론트/백엔드에서 자주 등장하는 **구조 설계 관점**을 한 줄씩만 정리한 것입니다. (공식 표준 폴더가 정해진 것은 아니며, 팀마다 변형합니다.)
-
-### 개념별 한 줄 정리
-
-| 개념 | 한 줄 |
-|------|--------|
-| **DDD** | 업무(도메인) 언어·규칙·경계(바운디드 컨텍스트)를 중심에 두고 모델링한다. 폴더는 팀이 정하며 DDD가 강제하지 않는다. |
-| **Strategic DDD** | 시스템을 큰 맥락(컨텍스트)으로 나누는 설계. 폴더 최상위가 `order/`, `payment/`처럼 컨텍스트 단위가 되기 쉽다. |
-| **Tactical DDD** | 엔티티·값 객체·애그리거트·리포지토리 등 구현 패턴. 보통 `domain/` 아래에 도메인별 폴더로 둔다. |
-| **Clean / Hexagonal** | 비즈니스 코어를 안쪽에 두고 DB·HTTP는 바깥(어댑터). `domain` + `application` + `adapters` 형태가 흔하다. |
-| **Layered** | presentation / application / domain / infrastructure 등 **역할(계층)**으로 나눈다. |
-| **FSD** | 프론트 전용 슬라이스: `app` → `pages` → `widgets` → `features` → `entities` → `shared` + import 규칙. 대형 SPA·팀 규칙에 강하다. |
-| **Atomic Design** | UI를 atom → molecule → organism → template → page 크기로 층 나눈다. 디자인 시스템·UI 키트에 잘 맞는다. |
-| **Feature 폴더** | `features/cart`, `features/profile`처럼 **기능 단위**로만 나눈다. FSD보다 루스하고 도입 비용이 낮다. |
-| **Route-based** | URL·라우트와 폴더가 1:1 (예: Next `app/dashboard/`). |
-| **Colocation** | 컴포넌트 옆에 테스트·스타일을 두어 수정 단위를 한 폴더에 모은다. |
-
 **FSD vs Atomic:** FSD는 **기능·도메인·의존 방향**이 축이고, Atomic은 **UI 조각 크기**가 충이다. 서로 배타가 아니라 `shared/ui` 안을 Atomic 규칙으로 쓰는 식으로 **병행**하기도 한다.
 
 ### 실제 소스 폴더 구조 (도메인 + shared)
@@ -206,14 +187,14 @@ yarn build
 
 헤더 **연락하기**는 이메일 클라이언트 대신 모달 폼으로 메시지를 보냅니다. 백엔드 없이 동작하려면 [Web3Forms](https://web3forms.com) 무료 Access Key가 필요합니다.
 
-1. [web3forms.com](https://web3forms.com)에서 Access Key 발급  
+1. [web3forms.com](https://web3forms.com)에서 Access Key 발급
 2. 프로젝트 루트에 `.env` 파일을 만들고 아래 추가 (`.env.example` 참고):
 
    ```bash
    VITE_WEB3FORMS_ACCESS_KEY=여기에_발급받은_키
    ```
 
-3. `yarn dev` 재시작 후 연락하기 동작 확인  
+3. `yarn dev` 재시작 후 연락하기 동작 확인
 
 수신 메일함은 Web3Forms 대시보드에서 연결한 주소로 전달됩니다.
 

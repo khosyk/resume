@@ -37,6 +37,7 @@ export default function App() {
 	const [activeTab, setActiveTab] = useState("All");
 	const [lang, setLang] = useState<"ko" | "en">("ko");
 	const [contactOpen, setContactOpen] = useState(false);
+	const [showMobileScrollArrow, setShowMobileScrollArrow] = useState(false);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 	const workEthicRef = useRef<HTMLDivElement>(null);
 	const web3formsAccessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY as
@@ -92,6 +93,7 @@ export default function App() {
 				problem: "문제",
 				thinking: "사고",
 				result: "결과",
+				swipeHint: "스크롤",
 				cats: ["전체", "앱", "웹", "네이티브/PWA"],
 			},
 			mindset: {
@@ -194,6 +196,7 @@ export default function App() {
 				problem: "Problem",
 				thinking: "Thinking",
 				result: "Result",
+				swipeHint: "SCROLL",
 				cats: ["All", "App", "Web", "Native/PWA"],
 			},
 			mindset: {
@@ -322,6 +325,31 @@ export default function App() {
 			container.removeEventListener("mouseleave", handleMouseLeave);
 			container.removeEventListener("mouseup", handleMouseUp);
 			container.removeEventListener("mousemove", handleMouseMove);
+		};
+	}, []);
+
+	useEffect(() => {
+		const container = scrollContainerRef.current;
+		if (!container) return;
+
+		const updateCueVisibility = () => {
+			const isMobile = window.matchMedia("(max-width: 680px)").matches;
+			if (!isMobile) {
+				setShowMobileScrollArrow(false);
+				return;
+			}
+			setShowMobileScrollArrow(container.scrollLeft < 16);
+		};
+
+		updateCueVisibility();
+		container.addEventListener("scroll", updateCueVisibility, {
+			passive: true,
+		});
+		window.addEventListener("resize", updateCueVisibility);
+
+		return () => {
+			container.removeEventListener("scroll", updateCueVisibility);
+			window.removeEventListener("resize", updateCueVisibility);
 		};
 	}, []);
 
@@ -776,7 +804,7 @@ export default function App() {
 						<div
 							id="project-scroll-container"
 							ref={scrollContainerRef}
-							className="flex gap-4 md:gap-8 overflow-x-auto overflow-y-visible pb-12 pt-1 snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab active:cursor-grabbing select-none w-full min-w-0 touch-pan-x px-4 sm:px-6 lg:px-10 xl:px-[max(1.25rem,calc((100vw-80rem)/2+1.25rem))]"
+							className="flex gap-4 md:gap-8 overflow-x-auto overflow-y-visible pb-12 pt-1 snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab active:cursor-grabbing select-none w-full min-w-0 px-4 sm:px-6 lg:px-10 xl:px-[max(1.25rem,calc((100vw-80rem)/2+1.25rem))]"
 						>
 							<AnimatePresence mode="popLayout">
 								{filteredProjects.map((project) => (
@@ -795,6 +823,29 @@ export default function App() {
 								))}
 							</AnimatePresence>
 						</div>
+
+						<AnimatePresence>
+							{showMobileScrollArrow && (
+								<motion.div
+									initial={{ opacity: 0, x: 8 }}
+									animate={{ opacity: 1, x: 0 }}
+									exit={{ opacity: 0, x: 8 }}
+									className="pointer-events-none absolute right-4 top-[46%] -translate-y-1/2 md:hidden text-brand-primary"
+								>
+									<motion.span
+										className="inline-block text-[28px] font-light leading-none"
+										animate={{ x: [0, 6, 0], opacity: [0.35, 1, 0.35] }}
+										transition={{
+											duration: 1,
+											repeat: Infinity,
+											ease: "easeInOut",
+										}}
+									>
+										&gt;
+									</motion.span>
+								</motion.div>
+							)}
+						</AnimatePresence>
 
 						<div className="flex justify-center gap-2 mt-4 md:hidden px-4">
 							{filteredProjects.map((_, i) => (
