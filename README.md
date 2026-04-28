@@ -176,6 +176,9 @@ src/
 # 의존성 설치
 yarn install
 
+# 환경 변수 체크
+yarn check:env
+
 # 로컬 개발 서버 실행
 yarn dev
 
@@ -183,20 +186,11 @@ yarn dev
 yarn build
 ```
 
-### 연락 폼 (Web3Forms)
+### 환경 변수 (필수)
 
-헤더 **연락하기**는 이메일 클라이언트 대신 모달 폼으로 메시지를 보냅니다. 백엔드 없이 동작하려면 [Web3Forms](https://web3forms.com) 무료 Access Key가 필요합니다.
-
-1. [web3forms.com](https://web3forms.com)에서 Access Key 발급
-2. 프로젝트 루트에 `.env` 파일을 만들고 아래 추가 (`.env.example` 참고):
-
-   ```bash
-   VITE_WEB3FORMS_ACCESS_KEY=여기에_발급받은_키
-   ```
-
-3. `yarn dev` 재시작 후 연락하기 동작 확인
-
-수신 메일함은 Web3Forms 대시보드에서 연결한 주소로 전달됩니다.
+- 필수 키: `VITE_WEB3FORMS_ACCESS_KEY`
+- 로컬에서 `.env` 파일을 만들 때 `.env.example`를 참고합니다.
+- `yarn dev`/`yarn build` 전에 `check:env`가 자동 실행되며, 누락 시 실행이 중단됩니다.
 
 ---
 

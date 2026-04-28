@@ -142,8 +142,6 @@ export default function App() {
 				sendError:
 					"전송에 실패했습니다. 잠시 후 다시 시도하거나 hosy12@gmail.com 으로 직접 메일 주세요.",
 				close: "닫기",
-				missingKey:
-					"연락 폼을 쓰려면 .env에 VITE_WEB3FORMS_ACCESS_KEY를 설정해 주세요. (무료: web3forms.com)",
 				validation:
 					"이름·이메일·내용을 모두 입력하고, 이메일 형식을 확인해 주세요.",
 			},
@@ -245,8 +243,6 @@ export default function App() {
 				sendError:
 					"Could not send. Please try again later or email hosy12@gmail.com directly.",
 				close: "Close",
-				missingKey:
-					"Set VITE_WEB3FORMS_ACCESS_KEY in .env to enable this form. (Free tier: web3forms.com)",
 				validation: "Please fill in all fields and use a valid email address.",
 			},
 		},

@@ -12,7 +12,6 @@ export interface ContactModalCopy {
 	sent: string;
 	sendError: string;
 	close: string;
-	missingKey: string;
 	validation: string;
 }
 
@@ -136,11 +135,6 @@ export function ContactModal({ isOpen, onClose, copy, accessKey }: ContactModalP
 							</button>
 						</div>
 
-						{!accessKey && (
-							<p className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
-								{copy.missingKey}
-							</p>
-						)}
 
 						{status === "success" ? (
 							<div className="space-y-4">

@@ -4,6 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "check:env": "node scripts/check-env.mjs",
+    "predev": "yarn check:env",
+    "prebuild": "yarn check:env",
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
     "preview": "vite preview",
