@@ -126,7 +126,6 @@ export default function App() {
 				extraTitle: "성실성 및 책임감",
 				extraDesc:
 					"30사단 훈련소 훈련 성적 전체 2등(500명 중) 수료, 사단장 표창. 맡은 환경에서 성과를 내는 책임감을 증명했습니다.",
-				notion: "자세한 이력 확인하기 (Notion)",
 			},
 			footer: {
 				built: "이희운이 디자인하고 구축함 © 2026",
@@ -160,8 +159,6 @@ export default function App() {
 				title1: "Architecting Stability",
 				title2: "for 550K Users.",
 				desc: "I am Heeun Lee, a frontend engineer who translates complex business requirements into sophisticated technical specifications, delivering optimal value.",
-				resume: "Resume",
-				coverLetter: "Cover Letter",
 				summaryTitle: "Professional Summary",
 				summaryDesc:
 					"With a 'learning by doing' mindset, I demonstrate overwhelming productivity across platforms—such as quickly mastering Swift to implement hardware diagnostics through AI-driven workflow innovations like Cursor and MCP.",
@@ -227,7 +224,6 @@ export default function App() {
 				extraTitle: "Diligence & responsibility",
 				extraDesc:
 					"2nd of 500 at 30th Division training; brigade commander's commendation.",
-				notion: "View Detailed CV (Notion)",
 			},
 			footer: {
 				built: "Designed & Built by Heeun Lee © 2026",
@@ -498,36 +494,38 @@ export default function App() {
 										<Phone size={18} className="text-brand-accent" />
 										<span>010-8362-3454</span>
 									</div>
-									<div className="flex flex-wrap gap-3 items-center">
-										<a
-											href="https://heeunlee.notion.site/325e4eb522558063b927e485e4511c28?pvs=74"
-											target="_blank"
-											rel="noopener noreferrer"
-											className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent"
-										>
-											<span
-												className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-[15px] font-black leading-none text-brand-secondary"
-												aria-hidden
+									{lang === "ko" && (
+										<div className="flex flex-wrap gap-3 items-center">
+											<a
+												href="https://heeunlee.notion.site/325e4eb522558063b927e485e4511c28?pvs=74"
+												target="_blank"
+												rel="noopener noreferrer"
+												className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent"
 											>
-												N
-											</span>
-											<span className="leading-none">{t.hero.resume}</span>
-										</a>
-										<a
-											href="https://heeunlee.notion.site/321e4eb522558019a22ef41d4080ed30?pvs=74"
-											target="_blank"
-											rel="noopener noreferrer"
-											className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent"
-										>
-											<span
-												className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-[15px] font-black leading-none text-brand-secondary"
-												aria-hidden
+												<span
+													className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-[15px] font-black leading-none text-brand-secondary"
+													aria-hidden
+												>
+													N
+												</span>
+												<span className="leading-none">{t.hero.resume}</span>
+											</a>
+											<a
+												href="https://heeunlee.notion.site/321e4eb522558019a22ef41d4080ed30?pvs=74"
+												target="_blank"
+												rel="noopener noreferrer"
+												className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent"
 											>
-												N
-											</span>
-											<span className="leading-none">{t.hero.coverLetter}</span>
-										</a>
-									</div>
+												<span
+													className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-[15px] font-black leading-none text-brand-secondary"
+													aria-hidden
+												>
+													N
+												</span>
+												<span className="leading-none">{t.hero.coverLetter}</span>
+											</a>
+										</div>
+									)}
 									<div className="flex gap-4">
 										<a
 											href="https://github.com/khosyk"
@@ -1002,15 +1000,17 @@ export default function App() {
 						>
 							<Linkedin size={20} />
 						</a>
-						<a
-							href="https://heeunlee.notion.site/325e4eb522558063b927e485e4511c28?pvs=74"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="w-9 h-9 border border-brand-border rounded-full text-brand-secondary hover:bg-brand-surface hover:text-brand-primary transition-colors flex items-center justify-center font-black text-sm"
-							title="Notion"
-						>
-							N
-						</a>
+						{lang === "ko" && (
+							<a
+								href="https://heeunlee.notion.site/325e4eb522558063b927e485e4511c28?pvs=74"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="w-9 h-9 border border-brand-border rounded-full text-brand-secondary hover:bg-brand-surface hover:text-brand-primary transition-colors flex items-center justify-center font-black text-sm"
+								title="Notion"
+							>
+								N
+							</a>
+						)}
 					</div>
 					<p className="text-xs font-bold text-brand-secondary uppercase tracking-widest">
 						{t.footer.built}
