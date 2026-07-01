@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { ChevronDown, Globe, Smartphone } from "lucide-react";
+import { ChevronDown, Globe, Puzzle, Smartphone } from "lucide-react";
 import React, { useState } from "react";
 import type { ResumeProject } from "../model/types";
 
@@ -19,6 +19,9 @@ function categoryIcon(category: string) {
 	const cls = "text-brand-accent shrink-0 w-[22px] h-[22px] md:w-6 md:h-6";
 	if (category === "Web") {
 		return <Globe className={cls} strokeWidth={2} />;
+	}
+	if (category === "Extension") {
+		return <Puzzle className={cls} strokeWidth={2} />;
 	}
 	return <Smartphone className={cls} strokeWidth={2} />;
 }

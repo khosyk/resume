@@ -20,7 +20,6 @@ import {
 	Users,
 	Award,
 	ArrowUp,
-	Languages,
 } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { buildPortfolioProjects } from "./domain/project/model/projects";
@@ -31,6 +30,9 @@ import { ExperienceItem } from "./shared/ui/ExperienceItem";
 import { MindsetItem } from "./shared/ui/MindsetItem";
 import { StatItem } from "./shared/ui/StatItem";
 import { TechCategory } from "./shared/ui/TechCategory";
+
+const WEB_SUMMARY_CWS_URL =
+	"https://chromewebstore.google.com/detail/lofcjofakipgchbnkdiliafakccnbhbo";
 
 export default function App() {
 	const [scrolled, setScrolled] = useState(false);
@@ -61,6 +63,7 @@ export default function App() {
 				desc: "복잡한 비즈니스 요구사항을 정교한 기술 스펙으로 번역하여 최적의 비용으로 구현해내는 프론트엔드 엔지니어 이희운입니다.",
 				resume: "이력서",
 				coverLetter: "자기소개서",
+				webSummary: "Web Summary",
 				summaryTitle: "전문가 요약",
 				summaryDesc:
 					'"최고의 공부는 실전이다"라는 신념 아래, Cursor 및 MCP 등 차세대 AI 도구를 활용한 워크플로우 혁신으로 Swift 네이티브 프레임워크를 단기 습득하여 하드웨어 진단 로직을 구현하는 등 플랫폼의 경계를 넘나드는 압도적 생산성을 증명합니다.',
@@ -94,7 +97,7 @@ export default function App() {
 				thinking: "사고",
 				result: "결과",
 				swipeHint: "스크롤",
-				cats: ["전체", "앱", "웹", "네이티브/PWA"],
+				cats: ["전체", "앱", "웹", "네이티브/PWA", "확장"],
 			},
 			mindset: {
 				title: "Work Ethic",
@@ -159,6 +162,7 @@ export default function App() {
 				title1: "Architecting Stability",
 				title2: "for 550K Users.",
 				desc: "I am Heeun Lee, a frontend engineer who translates complex business requirements into sophisticated technical specifications, delivering optimal value.",
+				webSummary: "Web Summary",
 				summaryTitle: "Professional Summary",
 				summaryDesc:
 					"With a 'learning by doing' mindset, I demonstrate overwhelming productivity across platforms—such as quickly mastering Swift to implement hardware diagnostics through AI-driven workflow innovations like Cursor and MCP.",
@@ -192,7 +196,7 @@ export default function App() {
 				thinking: "Thinking",
 				result: "Result",
 				swipeHint: "SCROLL",
-				cats: ["All", "App", "Web", "Native/PWA"],
+				cats: ["All", "App", "Web", "Native/PWA", "Extension"],
 			},
 			mindset: {
 				title: "Work Ethic",
@@ -414,11 +418,37 @@ export default function App() {
 					</div>
 					<div className="flex items-center gap-4">
 						<button
+							type="button"
 							onClick={() => setLang(lang === "ko" ? "en" : "ko")}
-							className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest hover:text-brand-accent transition-colors"
+							className="flex items-center gap-0.5 text-[11px] font-black tracking-widest rounded px-1.5 py-1 hover:opacity-90 transition-opacity cursor-pointer"
+							aria-label={
+								lang === "ko" ? "Switch to English" : "한국어로 전환"
+							}
 						>
-							<Languages size={16} />
-							<span>{lang === "ko" ? "EN" : "KO"}</span>
+							<span
+								className={
+									lang === "ko"
+										? "text-brand-primary"
+										: "text-brand-secondary/22"
+								}
+							>
+								KR
+							</span>
+							<span
+								className="text-brand-secondary/18 select-none"
+								aria-hidden
+							>
+								/
+							</span>
+							<span
+								className={
+									lang === "en"
+										? "text-brand-primary"
+										: "text-brand-secondary/22"
+								}
+							>
+								EN
+							</span>
 						</button>
 						<button
 							type="button"
@@ -494,38 +524,56 @@ export default function App() {
 										<Phone size={18} className="text-brand-accent" />
 										<span>010-8362-3454</span>
 									</div>
-									{lang === "ko" && (
-										<div className="flex flex-wrap gap-3 items-center">
-											<a
-												href="https://heeunlee.notion.site/325e4eb522558063b927e485e4511c28?pvs=74"
-												target="_blank"
-												rel="noopener noreferrer"
-												className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent"
-											>
-												<span
-													className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-[15px] font-black leading-none text-brand-secondary"
-													aria-hidden
+									<div className="flex flex-wrap gap-3 items-center">
+										{lang === "ko" && (
+											<>
+												<a
+													href="https://heeunlee.notion.site/325e4eb522558063b927e485e4511c28?pvs=74"
+													target="_blank"
+													rel="noopener noreferrer"
+													className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent"
 												>
-													N
-												</span>
-												<span className="leading-none">{t.hero.resume}</span>
-											</a>
-											<a
-												href="https://heeunlee.notion.site/321e4eb522558019a22ef41d4080ed30?pvs=74"
-												target="_blank"
-												rel="noopener noreferrer"
-												className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent"
-											>
-												<span
-													className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-[15px] font-black leading-none text-brand-secondary"
-													aria-hidden
+													<span
+														className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-[15px] font-black leading-none text-brand-secondary"
+														aria-hidden
+													>
+														N
+													</span>
+													<span className="leading-none">{t.hero.resume}</span>
+												</a>
+												<a
+													href="https://heeunlee.notion.site/321e4eb522558019a22ef41d4080ed30?pvs=74"
+													target="_blank"
+													rel="noopener noreferrer"
+													className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent"
 												>
-													N
-												</span>
-												<span className="leading-none">{t.hero.coverLetter}</span>
-											</a>
-										</div>
-									)}
+													<span
+														className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-[15px] font-black leading-none text-brand-secondary"
+														aria-hidden
+													>
+														N
+													</span>
+													<span className="leading-none">
+														{t.hero.coverLetter}
+													</span>
+												</a>
+											</>
+										)}
+										<a
+											href={WEB_SUMMARY_CWS_URL}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="inline-flex items-center gap-2 rounded-full border border-brand-border px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary transition-colors hover:bg-brand-surface hover:text-brand-accent"
+										>
+											<span
+												className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-[15px] font-black leading-none text-brand-secondary"
+												aria-hidden
+											>
+												C
+											</span>
+											<span className="leading-none">{t.hero.webSummary}</span>
+										</a>
+									</div>
 									<div className="flex gap-4">
 										<a
 											href="https://github.com/khosyk"
@@ -745,7 +793,13 @@ export default function App() {
 							{/* Tabs */}
 							<div className="flex bg-white p-1 rounded-xl border border-brand-border shadow-sm">
 								{t.projects.cats.map((cat: string, i: number) => {
-									const internalCat = ["All", "App", "Web", "Native/PWA"][i];
+									const internalCat = [
+										"All",
+										"App",
+										"Web",
+										"Native/PWA",
+										"Extension",
+									][i];
 									return (
 										<button
 											key={internalCat}

@@ -372,5 +372,87 @@ export function buildPortfolioProjects(lang: "ko" | "en"): ResumeProject[] {
 						],
 			color: "bg-emerald-50/50",
 		},
+		{
+			id: "web-summary",
+			title:
+				lang === "ko"
+					? "A · Web Summary"
+					: "A · Web Summary",
+			category: "Extension",
+			subtitle:
+				lang === "ko"
+					? "탭 triage용 Chrome 확장 — read/skip 판정·3줄 요약 (BYOK, 운영 서버 없음)"
+					: "Chrome extension for tab triage—Read/Skip verdict and 3-line summaries (BYOK, no backend)",
+			tags: [
+				"Chrome MV3",
+				"React",
+				"TypeScript",
+				"Vite",
+				"Gemini API",
+				"Side Panel",
+				"Vitest",
+				"BYOK",
+			],
+			link: "https://chromewebstore.google.com/detail/lofcjofakipgchbnkdiliafakccnbhbo",
+			images: [
+				"https://picsum.photos/seed/websummary1/1200/800",
+				"https://picsum.photos/seed/websummary2/1200/800",
+			],
+			achievements:
+				lang === "ko"
+					? [
+							{
+								problem:
+									"탭·기사가 많아 무엇부터 읽을지 모호하고, 클라우드 요약 SaaS는 키·비용·프라이버시 부담.",
+								thinking:
+									"MV3 사이드패널에서 semantic root + Readability로 본문 추출, Gemini structured JSON으로 read/skip·3줄 요약, BYOK로 브라우저에서 Google API 직접 호출, Web Summary 백엔드 없음.",
+								result:
+									"읽기 triage 도구로 CWS 출시(A · Web Summary). 본문·URL·요약은 서버에 수집·저장하지 않음(스토어·legal 기준).",
+							},
+							{
+								problem:
+									"잡음 많은 본문·긴 출력으로 토큰·지연·JSON 파싱(E10) 재시도 부담.",
+								thinking:
+									"articleTokenDiet·semanticRootPick로 입력 정제(최대 8k chars), fullSummary 제거·MAX_OUTPUT 384, gemini-2.5-flash-lite와 조건부 flash fallback, AbortController로 요약 중지.",
+								result:
+									"짧은 structured 출력 중심 파이프라인, Auto summarize(3초 dwell) 등 UX 확장.",
+							},
+							{
+								problem:
+									"Chrome API·Gemini HTTP·React UI는 E2E 없이 회귀 위험.",
+								thinking:
+									"파싱·프롬프트·token diet·semantic pick·에러 등 순수 함수 위주 Vitest(9 files·50 tests), Husky pre-push·GitHub Actions에서 yarn verify.",
+								result:
+									"핵심 요약 파이프라인 단위 테스트로 푸시 전 품질 게이트.",
+							},
+						]
+					: [
+							{
+								problem:
+									"Too many tabs; unclear what to read; cloud summary SaaS adds key, cost, and privacy overhead.",
+								thinking:
+									"MV3 side panel: semantic root + Readability extraction, Gemini structured JSON for read/skip and 3-line brief, BYOK direct browser→Google calls, no Web Summary backend.",
+								result:
+									"Shipped on Chrome Web Store (A · Web Summary). Page text, URLs, and summaries are not collected or stored on a server (per store/legal notes).",
+							},
+							{
+								problem:
+									"Noisy page text and long outputs caused token cost, latency, and JSON parse (E10) retries.",
+								thinking:
+									"articleTokenDiet and semanticRootPick (8k char cap), removed fullSummary, MAX_OUTPUT 384, gemini-2.5-flash-lite with conditional flash fallback, AbortController to stop in-flight summaries.",
+								result:
+									"Lean structured pipeline; added Auto summarize (3s dwell) and side-panel UX.",
+							},
+							{
+								problem:
+									"Chrome APIs, live Gemini HTTP, and React UI lack automated E2E coverage.",
+								thinking:
+									"Vitest on pure modules—parsing, prompts, token diet, semantic pick, errors (9 files, 50 tests); Husky pre-push and GitHub Actions run yarn verify.",
+								result:
+									"Core summarization path gated by unit tests before push.",
+							},
+						],
+			color: "bg-sky-50/50",
+		},
 	];
 }

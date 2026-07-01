@@ -170,6 +170,17 @@ src/
   - 지도·마커·ECharts·DataGrid로 관제·대용량 리스트
   - Axios Interceptor·sessionStorage 기반 세션·인증 일원화
 
+### 6. A · Web Summary - Extension
+
+**탭 triage용 Chrome 확장 (read/skip + 3줄 요약, BYOK)**
+
+- **링크**: [Chrome Web Store](https://chromewebstore.google.com/detail/lofcjofakipgchbnkdiliafakccnbhbo)
+- **기술 스택 (칩과 동일)**: Chrome MV3, React, TypeScript, Vite, Gemini API, Side Panel, Vitest, BYOK
+- **핵심 성과**:
+  - MV3 사이드패널·BYOK·운영 서버 없이 read/skip·3줄 structured 요약
+  - semanticRootPick·articleTokenDiet·fullSummary 제거로 입력·토큰·지연 개선
+  - Vitest 50 tests·Husky pre-push·GitHub Actions `yarn verify` 품질 게이트
+
 ## 🛠 설치 및 실행 (Setup & Run)
 
 ```bash
