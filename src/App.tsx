@@ -13,7 +13,6 @@ import {
 	Layers,
 	Smartphone,
 	Globe,
-	Terminal,
 	CheckCircle2,
 	ChevronRight,
 	BrainCircuit,
@@ -87,7 +86,6 @@ export default function App() {
 				cat1: "프론트엔드 & 상태관리",
 				cat2: "네이티브 & 인프라",
 				cat3: "AI & 생산성",
-				cat4: "특화 기술",
 			},
 			projects: {
 				title: "주요 프로젝트",
@@ -186,7 +184,6 @@ export default function App() {
 				cat1: "Frontend & State",
 				cat2: "Native & Infra",
 				cat3: "AI & Productivity",
-				cat4: "Specialized Skills",
 			},
 			projects: {
 				title: "Featured Projects",
@@ -722,7 +719,6 @@ export default function App() {
 											"Styled Components",
 											"MUI",
 											"Lottie",
-											"Figma",
 										]}
 									/>
 								</motion.div>
@@ -733,7 +729,6 @@ export default function App() {
 										items={[
 											"Swift 5.x",
 											"Android Native Module",
-											"Singleton/Delegate",
 											"Firebase (FCM, Dynamic Links)",
 											"AWS S3",
 											"REST API",
@@ -751,26 +746,11 @@ export default function App() {
 											"MCP",
 											"Claude",
 											"Stitch AI",
+											"Figma",
 											"Git",
 											"Jira",
 											"App Store Connect",
 											"Google Play Console",
-										]}
-									/>
-								</motion.div>
-								<motion.div variants={fadeIn}>
-									<TechCategory
-										title={t.tech.cat4}
-										icon={<Terminal size={20} />}
-										items={[
-											lang === "ko"
-												? "PWA Blob·미디어 처리"
-												: "PWA Blob & media",
-											lang === "ko"
-												? "Android 15 (SDK 35) 16KB 페이지"
-												: "Android 15 SDK 35 16KB pages",
-											"Atomic Design",
-											"RBAC",
 										]}
 									/>
 								</motion.div>
